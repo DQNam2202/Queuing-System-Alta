@@ -7,6 +7,7 @@ import { RouteObject } from 'react-router-dom';
 //Admin Pages
 import Dashboard from '../pages/Layout/Dashboard';
 import Page404 from '../components/Page404';
+import Login from '../pages/Home/Login';
 
 export const publicRoutes: RouteObject[] = [
   {
@@ -14,6 +15,14 @@ export const publicRoutes: RouteObject[] = [
     element: (
       <PublicRoute>
         <h2>Wellcome to DuongNam</h2>
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/login',
+    element: (
+      <PublicRoute>
+        <Login />
       </PublicRoute>
     ),
   },
