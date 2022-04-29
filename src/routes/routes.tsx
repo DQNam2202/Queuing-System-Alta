@@ -8,6 +8,7 @@ import { RouteObject } from 'react-router-dom';
 import Dashboard from '../pages/Layout/Dashboard';
 import Page404 from '../components/Page404';
 import Login from '../pages/Home/Login';
+import CreateNewPassword from '../pages/Home/CreateNewPassword';
 
 export const publicRoutes: RouteObject[] = [
   {
@@ -23,6 +24,14 @@ export const publicRoutes: RouteObject[] = [
     element: (
       <PublicRoute>
         <Login />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/newpass',
+    element: (
+      <PublicRoute>
+        <CreateNewPassword />
       </PublicRoute>
     ),
   },
