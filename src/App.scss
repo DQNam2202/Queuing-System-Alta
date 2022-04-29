@@ -1,6 +1,15 @@
+@import '~antd/dist/antd.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Nunito', sans-serif;
+    font-size: 18px;
+  }
+}
 
 *,
 *::before,
@@ -45,4 +54,97 @@ h4,
 h5,
 h6 {
   overflow-wrap: break-word;
+}
+
+.btn-primary {
+  width: 162px;
+  display: inline-block;
+  color: #fff;
+  padding: 8px 35px;
+  border-radius: 8px;
+  background-color: #ff9138;
+  font-weight: 700;
+  outline: none;
+  border: 1px solid #ff9138;
+  font-size: 16px;
+  &.btn-outline {
+    background: white;
+    color: #ff9138;
+    border: 1px solid #ff9138;
+    &:hover {
+      background-color: white;
+    }
+  }
+  &:hover {
+    border: 1px solid #ff9138;
+    background-color: #ff9138;
+  }
+  &:focus {
+    border: 1px solid #ff9138;
+    background-color: #ff9138;
+    box-shadow: 0 0 3px #ff9138;
+    outline-offset: 0px;
+    outline: none;
+  }
+}
+
+.btn-gray {
+  width: 213px;
+  cursor: pointer;
+  display: inline-block;
+  color: #fff;
+  padding: 7px 32px;
+  background-color: #c4c4c4;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  font-weight: 700;
+  outline: none;
+  border: 1px solid #c4c4c4;
+  font-size: 16px;
+  &:hover {
+    border: 1px solid #c4c4c4;
+    background-color: #c4c4c4;
+  }
+  &:focus {
+    border: 1px solid #c4c4c4;
+    background-color: #c4c4c4;
+    box-shadow: 0 0 3px #c4c4c4;
+    outline-offset: 0px;
+    outline: none;
+  }
+}
+.btn-animation {
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  background-color: #637eff;
+  cursor: pointer;
+  font-weight: 500;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  position: relative;
+  isolation: isolate;
+  &::before {
+    content: '';
+    height: 0;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #ff9138;
+    z-index: -1;
+    border-radius: 4px;
+    transition: height 0.25s ease-in;
+  }
+  &:hover::before {
+    height: 100%;
+  }
+}
+
+// Custom border color-input password
+.ant-input-affix-wrapper:not(.ant-input-affix-wrapper-disabled):hover {
+  border-color: #ff7506 !important;
+  border-right-width: 1px;
+  z-index: 1;
 }
