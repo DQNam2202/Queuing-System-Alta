@@ -9,6 +9,7 @@ import Dashboard from '../pages/Layout/Dashboard';
 import Page404 from '../components/Page404';
 import Login from '../pages/Home/Login';
 import CreateNewPassword from '../pages/Home/CreateNewPassword';
+import ResetPassword from '../pages/Home/ResetPassword';
 
 export const publicRoutes: RouteObject[] = [
   {
@@ -24,6 +25,14 @@ export const publicRoutes: RouteObject[] = [
     element: (
       <PublicRoute>
         <Login />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/resetpass',
+    element: (
+      <PublicRoute>
+        <ResetPassword />
       </PublicRoute>
     ),
   },
