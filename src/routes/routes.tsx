@@ -14,6 +14,7 @@ import GearLevelDevice from '../pages/Users/GearLevelDevice';
 import SettingDisplayDevice from '../pages/Users/SettingDisplayDevice';
 import SettingGearDevice from '../pages/Users/SettingGearLevelDevice';
 import SettingViewDevice from '../pages/Users/SettingViewDeviceCounte';
+import ViewDeviceCounte from '../pages/Users/ViewDeviceCounte';
 
 export const publicRoutes: RouteObject[] = [
   {
@@ -77,6 +78,14 @@ export const publicRoutes: RouteObject[] = [
     element: (
       <PublicRoute>
         <SettingViewDevice />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/viewdevice',
+    element: (
+      <PublicRoute>
+        <ViewDeviceCounte />
       </PublicRoute>
     ),
   },
