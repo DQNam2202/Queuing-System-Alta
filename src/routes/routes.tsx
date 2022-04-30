@@ -11,6 +11,7 @@ import Login from '../pages/Home/Login';
 import CreateNewPassword from '../pages/Home/CreateNewPassword';
 import ResetPassword from '../pages/Home/ResetPassword';
 import GearLevelDevice from '../pages/Users/GearLevelDevice';
+import SettingDisplayDevice from '../pages/Users/SettingDisplayDevice';
 
 export const publicRoutes: RouteObject[] = [
   {
@@ -50,6 +51,14 @@ export const publicRoutes: RouteObject[] = [
     element: (
       <PublicRoute>
         <GearLevelDevice />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/settingdevice',
+    element: (
+      <PublicRoute>
+        <SettingDisplayDevice />
       </PublicRoute>
     ),
   },
