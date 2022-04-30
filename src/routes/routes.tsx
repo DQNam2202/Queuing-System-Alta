@@ -17,6 +17,7 @@ import SettingViewDevice from '../pages/Users/SettingViewDeviceCounte';
 import ViewDeviceCounte from '../pages/Users/ViewDeviceCounte';
 import ViewDeviceMain from '../pages/Users/ViewDeviceMain';
 import DrawNumbers from '../pages/User-Interaction/DrawNumbers';
+import LoginViewProfile from '../pages/Home/LoginViewProfile';
 
 export const publicRoutes: RouteObject[] = [
   {
@@ -104,6 +105,14 @@ export const publicRoutes: RouteObject[] = [
     element: (
       <PublicRoute>
         <DrawNumbers />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/loginprofile',
+    element: (
+      <PublicRoute>
+        <LoginViewProfile />
       </PublicRoute>
     ),
   },
