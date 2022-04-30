@@ -13,6 +13,7 @@ import ResetPassword from '../pages/Home/ResetPassword';
 import GearLevelDevice from '../pages/Users/GearLevelDevice';
 import SettingDisplayDevice from '../pages/Users/SettingDisplayDevice';
 import SettingGearDevice from '../pages/Users/SettingGearLevelDevice';
+import SettingViewDevice from '../pages/Users/SettingViewDeviceCounte';
 
 export const publicRoutes: RouteObject[] = [
   {
@@ -68,6 +69,14 @@ export const publicRoutes: RouteObject[] = [
     element: (
       <PublicRoute>
         <SettingGearDevice />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/settingview',
+    element: (
+      <PublicRoute>
+        <SettingViewDevice />
       </PublicRoute>
     ),
   },
