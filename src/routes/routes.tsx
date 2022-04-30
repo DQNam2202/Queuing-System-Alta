@@ -16,6 +16,7 @@ import SettingGearDevice from '../pages/Users/SettingGearLevelDevice';
 import SettingViewDevice from '../pages/Users/SettingViewDeviceCounte';
 import ViewDeviceCounte from '../pages/Users/ViewDeviceCounte';
 import ViewDeviceMain from '../pages/Users/ViewDeviceMain';
+import DrawNumbers from '../pages/User-Interaction/DrawNumbers';
 
 export const publicRoutes: RouteObject[] = [
   {
@@ -95,6 +96,14 @@ export const publicRoutes: RouteObject[] = [
     element: (
       <PublicRoute>
         <ViewDeviceMain />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/drawnumber',
+    element: (
+      <PublicRoute>
+        <DrawNumbers />
       </PublicRoute>
     ),
   },
