@@ -1,0 +1,24 @@
+.ant-modal-content {
+  font-family: 'Nunito', sans-serif;
+  border-radius: 20px;
+}
+.ant-modal-header {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.ant-modal-title {
+  text-align: center;
+  color: #ff7506;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: inherit;
+}
+.ant-input:hover {
+  border-color: #ff7506 !important;
+  border-right-width: 1px;
+}
+input,
+input::-webkit-input-placeholder {
+  font-size: 16px;
+  line-height: 3;
+}
