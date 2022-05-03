@@ -18,6 +18,7 @@ import ViewDeviceCounte from '../pages/Users/ViewDeviceCounte';
 import ViewDeviceMain from '../pages/Users/ViewDeviceMain';
 import DrawNumbers from '../pages/User-Interaction/DrawNumbers';
 import LoginViewProfile from '../pages/Home/LoginViewProfile';
+import PopupNumberPrint from '../pages/User-Interaction/PopupNumberPrint';
 
 export const routes: RouteObject[] = [
   {
@@ -89,6 +90,14 @@ export const routes: RouteObject[] = [
     element: (
       <PublicRoute>
         <ViewDeviceCounte />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/popup-number',
+    element: (
+      <PublicRoute>
+        <PopupNumberPrint />
       </PublicRoute>
     ),
   },
