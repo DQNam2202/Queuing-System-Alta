@@ -2,6 +2,9 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+      boxShadow: {
+        circle: '0 0 10px 5px rgba(99, 183, 177,1)',
+      },
       colors: {
         primary: '#ff7506',
         secondary: '#A9A9B0',
@@ -27,6 +30,22 @@ module.exports = {
         'primary-gray-500': '#282739',
         'primary-gray-800': '#0A0A0E',
         'primary-light-gray': '#f6f6f6',
+      },
+      screens: {
+        '2xl': { max: '1440px' },
+        // => @media (max-width: 1535px) { ... }
+
+        xl: { max: '1279px' },
+        // => @media (max-width: 1279px) { ... }
+
+        lg: { max: '1023px' },
+        // => @media (max-width: 1023px) { ... }
+
+        md: { max: '767px' },
+        // => @media (max-width: 767px) { ... }
+
+        sm: { max: '639px' },
+        // => @media (max-width: 639px) { ... }
       },
     },
   },

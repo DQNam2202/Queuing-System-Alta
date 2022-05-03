@@ -7,7 +7,7 @@ const LoginViewProfile = () => {
           <div className='w-[68px] h-[28px]'>
             <img
               src='./images/logo.png'
-              alt=''
+              alt='logo_able'
               className='w-full h-full object-cover'
             />
           </div>

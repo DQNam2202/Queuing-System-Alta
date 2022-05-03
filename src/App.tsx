@@ -1,18 +1,12 @@
 import React from 'react';
 import './App.scss';
 import { useRoutes } from 'react-router-dom';
-import { privateRoutes, publicRoutes } from './routes/routes';
+import { routes } from './routes/routes';
 
 function App() {
-  const routingPrivate = useRoutes(privateRoutes);
-  const routingPublic = useRoutes(publicRoutes);
+  const routing = useRoutes(routes);
 
-  return (
-    <div className='App'>
-      {routingPrivate}
-      {routingPublic}
-    </div>
-  );
+  return <div className='App'>{routing}</div>;
 }
 
 export default App;

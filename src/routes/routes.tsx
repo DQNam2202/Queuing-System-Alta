@@ -19,7 +19,7 @@ import ViewDeviceMain from '../pages/Users/ViewDeviceMain';
 import DrawNumbers from '../pages/User-Interaction/DrawNumbers';
 import LoginViewProfile from '../pages/Home/LoginViewProfile';
 
-export const publicRoutes: RouteObject[] = [
+export const routes: RouteObject[] = [
   {
     path: '/',
     element: (
@@ -53,7 +53,7 @@ export const publicRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/leveldevice',
+    path: '/level-device',
     element: (
       <PublicRoute>
         <GearLevelDevice />
@@ -61,7 +61,7 @@ export const publicRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/settingdevice',
+    path: '/setting-display-device',
     element: (
       <PublicRoute>
         <SettingDisplayDevice />
@@ -69,7 +69,7 @@ export const publicRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/settinglevel',
+    path: '/setting-device',
     element: (
       <PublicRoute>
         <SettingGearDevice />
@@ -77,7 +77,7 @@ export const publicRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/settingview',
+    path: '/setting-view-device',
     element: (
       <PublicRoute>
         <SettingViewDevice />
@@ -85,7 +85,7 @@ export const publicRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/viewdevice',
+    path: '/view-device',
     element: (
       <PublicRoute>
         <ViewDeviceCounte />
@@ -93,7 +93,7 @@ export const publicRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/viewdevicemain',
+    path: '/view-device-main',
     element: (
       <PublicRoute>
         <ViewDeviceMain />
@@ -101,7 +101,7 @@ export const publicRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/drawnumber',
+    path: '/draw-number',
     element: (
       <PublicRoute>
         <DrawNumbers />
@@ -109,11 +109,19 @@ export const publicRoutes: RouteObject[] = [
     ),
   },
   {
-    path: '/loginprofile',
+    path: '/login-profile',
     element: (
       <PublicRoute>
         <LoginViewProfile />
       </PublicRoute>
+    ),
+  },
+  {
+    path: '/dashboard',
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
     ),
   },
   {
@@ -122,17 +130,6 @@ export const publicRoutes: RouteObject[] = [
       <PublicRoute>
         <Page404 />
       </PublicRoute>
-    ),
-  },
-];
-
-export const privateRoutes: RouteObject[] = [
-  {
-    path: '/dashboard',
-    element: (
-      <PrivateRoute>
-        <Dashboard />
-      </PrivateRoute>
     ),
   },
 ];
