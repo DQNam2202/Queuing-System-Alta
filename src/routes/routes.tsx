@@ -20,6 +20,10 @@ import DrawNumbers from '../pages/User-Interaction/DrawNumbers';
 import LoginViewProfile from '../pages/Home/LoginViewProfile';
 import PopupNumberPrint from '../pages/User-Interaction/PopupNumberPrint';
 import Profile from '../pages/Layout/Profile';
+import DeviceManager from '../pages/Layout/DeviceManagement';
+import AddDevice from '../pages/Layout/DeviceManagement/AddDevice';
+import DetailDevice from '../pages/Layout/DeviceManagement/DetailDevice';
+import UpdateDevice from '../pages/Layout/DeviceManagement/UpdateDevice';
 
 export const routes: RouteObject[] = [
   {
@@ -131,6 +135,38 @@ export const routes: RouteObject[] = [
     element: (
       <PrivateRoute>
         <Profile />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/devices-management',
+    element: (
+      <PrivateRoute>
+        <DeviceManager />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/devices-management/add',
+    element: (
+      <PrivateRoute>
+        <AddDevice />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/devices-management/detail/:id',
+    element: (
+      <PrivateRoute>
+        <DetailDevice />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/devices-management/update/:id',
+    element: (
+      <PrivateRoute>
+        <UpdateDevice />
       </PrivateRoute>
     ),
   },

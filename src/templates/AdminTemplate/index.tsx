@@ -24,7 +24,7 @@ const PrivateTemplate = (props: Props) => {
                 <i className='fa fa-table mr-[8px]'></i>Dashboard
               </li>
             </NavLink>
-            <NavLink className='block w-full' to='/device-management'>
+            <NavLink className='block w-full' to='/devices-management'>
               <li className='px-[17px] py-[10px] text-sm font-medium text-gray-500 hover:text-white hover:bg-primary'>
                 <i className='fa fa-desktop mr-[8px]'></i>Thiết bị
               </li>
