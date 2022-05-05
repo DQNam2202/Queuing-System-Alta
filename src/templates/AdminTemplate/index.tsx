@@ -1,6 +1,7 @@
 import React from 'react';
+import { MoreOutlined } from '@ant-design/icons';
 import { useNavigate, NavLink, Link, LinkProps } from 'react-router-dom';
-
+import './style.scss';
 type Props = {
   children?: JSX.Element | JSX.Element[];
 };
@@ -53,14 +54,28 @@ const PrivateTemplate = (props: Props) => {
                 Báo cáo
               </li>
             </NavLink>
-            <NavLink className='block w-full' to='/statistic'>
-              <li className='px-[17px] py-[10px] text-sm font-medium text-gray-500 hover:text-white hover:bg-primary flex gap-x-1'>
-                <div className='h-[20px] w-[20px]'>
-                  <img src='/images/svgs/icon-setting.svg' alt='' />
+            <div className='block w-full relative'>
+              <li className='dropdown relative px-[17px] py-[10px] text-sm font-medium text-gray-500 hover:text-white hover:bg-primary flex'>
+                <div className='flex justify-center items-center'>
+                  <div className='h-[20px] w-[20px]'>
+                    <img src='/images/svgs/icon-setting.svg' alt='' />
+                  </div>
+                  Cài đặt hệ thống
+                  <MoreOutlined />
                 </div>
-                cài đặt hệ thống
+                <div className='dropdown-content'>
+                  <Link to='' className='dropdown-item'>
+                    Quản lý vai trò
+                  </Link>
+                  <Link to='' className='dropdown-item'>
+                    Quản lý tài khoản
+                  </Link>
+                  <Link to='' className='dropdown-item'>
+                    Nhật ký người dùng
+                  </Link>
+                </div>
               </li>
-            </NavLink>
+            </div>
             <button className='block text-left w-full mt-auto bg-primary bg-opacity-10 '>
               <li className='px-[17px] py-[10px] text-sm font-medium text-primary hover:text-white hover:bg-primary'>
                 <i className='fa fa-sign-out-alt mr-[8px] hover:text-white'></i>

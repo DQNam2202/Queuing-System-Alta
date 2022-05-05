@@ -1,0 +1,46 @@
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 200px;
+  box-shadow: 3px 3px 4px rgba(70, 64, 67, 0.1);
+  z-index: 1;
+  top: 0;
+  right: -124%;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content .dropdown-item {
+  color: #7e7d88;
+  padding: 12px 57px 4px 16px;
+  text-decoration: none;
+  display: block;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.dropdown-content .dropdown-item:first-child {
+  border-top-right-radius: 12px;
+}
+.dropdown-content .dropdown-item:last-child {
+  border-bottom-right-radius: 12px;
+}
+/* Change color of dropdown links on hover */
+.dropdown-content .dropdown-item:hover {
+  background-color: #ff9138;
+  color: white;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
