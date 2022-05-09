@@ -74,7 +74,7 @@ const DetailService = (props: Props) => {
   };
 
   return (
-    <div className='content pl-[24px] pt-[29px] pr-[100px] relative'>
+    <div className='content pl-[24px] pt-[29px] pr-[100px] relative service-detail'>
       <div className='path text-gray-600 font-bold text-lg mb-11'>
         Dịch vụ &gt; Danh sách dịch vụ &gt;
         <span className='text-primary font-bold'>Chi tiết</span>
