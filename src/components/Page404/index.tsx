@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './style.scss';
 const Page404 = () => {
   return (
@@ -14,9 +15,11 @@ const Page404 = () => {
                 <div className='contant_box_404'>
                   <h3 className='h2'>Look like you're lost</h3>
                   <p>The page you are looking for not avaible!</p>
-                  <button type='button' className='btn-animation mt-6'>
-                    GO BACK HOME
-                  </button>
+                  <Link to='/dashboard'>
+                    <button type='button' className='btn-animation mt-6'>
+                      GO BACK HOME
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

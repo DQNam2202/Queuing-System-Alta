@@ -23,6 +23,7 @@ module.exports = {
         'primary-light-orange': 'rgba(255, 154, 72, 0.201)',
         'primary-green': '#92CD4F',
         'primary-green-300': '#9CCC65',
+        'primary-green-500': '#34CD26',
         'primary-purple': '#8E90F8',
         'primary-purple-300': '#A5A6F6',
         'primary-gray-300': '#37474F',

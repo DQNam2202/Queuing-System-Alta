@@ -24,6 +24,10 @@ import DeviceManager from '../pages/Layout/DeviceManagement';
 import AddDevice from '../pages/Layout/DeviceManagement/AddDevice';
 import DetailDevice from '../pages/Layout/DeviceManagement/DetailDevice';
 import UpdateDevice from '../pages/Layout/DeviceManagement/UpdateDevice';
+import ServiceManager from '../pages/Layout/ServiceManager';
+import AddService from '../pages/Layout/ServiceManager/AddService';
+import UpdateService from '../pages/Layout/ServiceManager/UpdateService';
+import DetailService from '../pages/Layout/ServiceManager/DetailService';
 
 export const routes: RouteObject[] = [
   {
@@ -67,10 +71,19 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: '/setting-display-device',
+    path: '/view-device',
     element: (
       <PublicRoute>
-        <SettingDisplayDevice />
+        <ViewDeviceCounte />
+      </PublicRoute>
+    ),
+  },
+
+  {
+    path: '/view-device-main',
+    element: (
+      <PublicRoute>
+        <ViewDeviceMain />
       </PublicRoute>
     ),
   },
@@ -83,6 +96,14 @@ export const routes: RouteObject[] = [
     ),
   },
   {
+    path: '/setting-display-device',
+    element: (
+      <PublicRoute>
+        <SettingDisplayDevice />
+      </PublicRoute>
+    ),
+  },
+  {
     path: '/setting-view-device',
     element: (
       <PublicRoute>
@@ -91,10 +112,10 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: '/view-device',
+    path: '/draw-number',
     element: (
       <PublicRoute>
-        <ViewDeviceCounte />
+        <DrawNumbers />
       </PublicRoute>
     ),
   },
@@ -103,22 +124,6 @@ export const routes: RouteObject[] = [
     element: (
       <PublicRoute>
         <PopupNumberPrint />
-      </PublicRoute>
-    ),
-  },
-  {
-    path: '/view-device-main',
-    element: (
-      <PublicRoute>
-        <ViewDeviceMain />
-      </PublicRoute>
-    ),
-  },
-  {
-    path: '/draw-number',
-    element: (
-      <PublicRoute>
-        <DrawNumbers />
       </PublicRoute>
     ),
   },
@@ -167,6 +172,38 @@ export const routes: RouteObject[] = [
     element: (
       <PrivateRoute>
         <UpdateDevice />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/services-management',
+    element: (
+      <PrivateRoute>
+        <ServiceManager />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/services-management/add',
+    element: (
+      <PrivateRoute>
+        <AddService />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/services-management/update/:id',
+    element: (
+      <PrivateRoute>
+        <UpdateService />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/services-management/detail/:id',
+    element: (
+      <PrivateRoute>
+        <DetailService />
       </PrivateRoute>
     ),
   },
