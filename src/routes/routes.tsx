@@ -28,6 +28,7 @@ import ServiceManager from '../pages/Layout/ServiceManager';
 import AddService from '../pages/Layout/ServiceManager/AddService';
 import UpdateService from '../pages/Layout/ServiceManager/UpdateService';
 import DetailService from '../pages/Layout/ServiceManager/DetailService';
+import ReportManager from '../pages/Layout/ReportManagement';
 
 export const routes: RouteObject[] = [
   {
@@ -204,6 +205,14 @@ export const routes: RouteObject[] = [
     element: (
       <PrivateRoute>
         <DetailService />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/reports-management',
+    element: (
+      <PrivateRoute>
+        <ReportManager />
       </PrivateRoute>
     ),
   },
