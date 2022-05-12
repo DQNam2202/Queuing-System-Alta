@@ -18,7 +18,6 @@ import ViewDeviceCounte from '../pages/Users/ViewDeviceCounte';
 import ViewDeviceMain from '../pages/Users/ViewDeviceMain';
 import DrawNumbers from '../pages/User-Interaction/DrawNumbers';
 import LoginViewProfile from '../pages/Home/LoginViewProfile';
-import PopupNumberPrint from '../pages/User-Interaction/PopupNumberPrint';
 import Profile from '../pages/Layout/Profile';
 import DeviceManager from '../pages/Layout/DeviceManagement';
 import AddDevice from '../pages/Layout/DeviceManagement/AddDevice';
@@ -29,6 +28,9 @@ import AddService from '../pages/Layout/ServiceManager/AddService';
 import UpdateService from '../pages/Layout/ServiceManager/UpdateService';
 import DetailService from '../pages/Layout/ServiceManager/DetailService';
 import ReportManager from '../pages/Layout/ReportManagement';
+import ProgressManager from '../pages/Layout/ProgressionManager';
+import AddProgression from '../pages/Layout/ProgressionManager/AddProgression';
+import DetailProgression from '../pages/Layout/ProgressionManager/DetailProgression';
 
 export const routes: RouteObject[] = [
   {
@@ -121,14 +123,6 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: '/popup-number',
-    element: (
-      <PublicRoute>
-        <PopupNumberPrint />
-      </PublicRoute>
-    ),
-  },
-  {
     path: '/login-profile',
     element: (
       <PublicRoute>
@@ -213,6 +207,30 @@ export const routes: RouteObject[] = [
     element: (
       <PrivateRoute>
         <ReportManager />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/progression-management',
+    element: (
+      <PrivateRoute>
+        <ProgressManager />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/progression-management/add',
+    element: (
+      <PrivateRoute>
+        <AddProgression />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/progression-management/detail/:id',
+    element: (
+      <PrivateRoute>
+        <DetailProgression />
       </PrivateRoute>
     ),
   },

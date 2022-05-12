@@ -38,7 +38,7 @@ const PrivateTemplate = (props: Props) => {
                 Dịch vụ
               </li>
             </NavLink>
-            <NavLink className='block w-full' to='/manager-notification'>
+            <NavLink className='block w-full' to='/progression-management'>
               <li className='px-[17px] py-[10px] text-sm font-medium text-gray-500 hover:text-white hover:bg-primary flex gap-x-1'>
                 <div className='h-[20px] w-[20px]'>
                   <img src='/images/svgs/icon-layers.svg' alt='' />

@@ -143,7 +143,7 @@ const DeviceManager = (props: Props) => {
   };
 
   return (
-    <div className='content pl-[24px] pt-[29px] pr-[100px] relative'>
+    <div className='content pl-[24px] pt-[29px] pr-[100px] relative device'>
       <div className='path text-primary-gray-light-400 font-bold text-xl leading-[30px] mb-11'>
         Thiết bị &gt;{' '}
         <span className='text-primary-500 text-xl leading-[30px] font-bold'>

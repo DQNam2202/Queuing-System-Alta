@@ -1,5 +1,4 @@
-.device {
-  .controls {
+.controls {
     .item {
       .ant-select-selector {
         border: 1px solid #d4d4d7 !important;
@@ -21,25 +20,6 @@
       }
     }
   }
-  .ant-pagination-item:hover {
-    border-color: #ff7506 !important;
-    background: #ff7506;
-    > a {
-      color: #fff !important;
-    }
-  }
-  .ant-pagination-item-active {
-    font-weight: 500;
-    background: #ff7506;
-    border-color: #ff7506 !important;
-    > a {
-      color: #fff !important;
-    }
-    &:hover {
-      border-color: #ff7506 !important;
-      color: #fff !important;
-    }
-  }
   .ant-input {
     &-search {
       input {
@@ -48,9 +28,7 @@
       }
     }
     &-group-addon {
-      height: 100%;
       button {
-        height: 100%;
         border-left: 0;
         background: #fff;
         border-bottom-right-radius: 0.5rem !important;
@@ -85,21 +63,10 @@
           background: #fff2e7;
         }
         td {
-          padding: 12px 16px;
+          padding: 14px 17px;
           border-right: 1px solid #ffe3cd;
         }
       }
     }
   }
-  .controls .item .ant-select-selector {
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-  .ant-input-group {
-    height: 100%;
-    .ant-input {
-      height: 100%;
-    }
-  }
-}
+  
