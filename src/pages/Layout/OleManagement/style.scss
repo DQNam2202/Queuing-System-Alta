@@ -1,0 +1,37 @@
+.ole {
+  .ant-input-search .ant-input {
+    &:hover {
+      border-color: #ff7506 !important;
+    }
+    &:focus {
+      border-color: #ff7506 !important;
+    }
+  }
+  .ant-btn {
+    &:hover {
+      border-color: #ff7506 !important;
+    }
+    &:focus {
+      border-color: #ff7506 !important;
+    }
+  }
+  .ant-pagination-item:hover {
+    border-color: #ff7506 !important;
+    background: #ff7506;
+    > a {
+      color: #fff !important;
+    }
+  }
+  .ant-pagination-item-active {
+    font-weight: 500;
+    background: #ff7506;
+    border-color: #ff7506 !important;
+    > a {
+      color: #fff !important;
+    }
+    &:hover {
+      border-color: #ff7506 !important;
+      color: #fff !important;
+    }
+  }
+}

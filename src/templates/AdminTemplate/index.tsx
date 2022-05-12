@@ -64,13 +64,13 @@ const PrivateTemplate = (props: Props) => {
                   <MoreOutlined />
                 </div>
                 <div className='dropdown-content'>
-                  <Link to='' className='dropdown-item'>
+                  <Link to='/ole-management' className='dropdown-item'>
                     Quản lý vai trò
                   </Link>
-                  <Link to='' className='dropdown-item'>
+                  <Link to='/user-management' className='dropdown-item'>
                     Quản lý tài khoản
                   </Link>
-                  <Link to='' className='dropdown-item'>
+                  <Link to='/user-log' className='dropdown-item'>
                     Nhật ký người dùng
                   </Link>
                 </div>

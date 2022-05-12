@@ -31,6 +31,13 @@ import ReportManager from '../pages/Layout/ReportManagement';
 import ProgressManager from '../pages/Layout/ProgressionManager';
 import AddProgression from '../pages/Layout/ProgressionManager/AddProgression';
 import DetailProgression from '../pages/Layout/ProgressionManager/DetailProgression';
+import OleManager from '../pages/Layout/OleManagement';
+import AddOle from '../pages/Layout/OleManagement/AddOle';
+import UpdateOle from '../pages/Layout/OleManagement/UpdateOle';
+import UserManager from '../pages/Layout/UserManagement';
+import AddUser from '../pages/Layout/UserManagement/AddUser';
+import UpdateUser from '../pages/Layout/UserManagement/UpdateUser';
+import UserLog from '../pages/Layout/UserLog';
 
 export const routes: RouteObject[] = [
   {
@@ -231,6 +238,62 @@ export const routes: RouteObject[] = [
     element: (
       <PrivateRoute>
         <DetailProgression />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/ole-management',
+    element: (
+      <PrivateRoute>
+        <OleManager />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/ole-management/add',
+    element: (
+      <PrivateRoute>
+        <AddOle />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/ole-management/update/:id',
+    element: (
+      <PrivateRoute>
+        <UpdateOle />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/user-management',
+    element: (
+      <PrivateRoute>
+        <UserManager />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/user-management/add',
+    element: (
+      <PrivateRoute>
+        <AddUser />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/user-management/update/:id',
+    element: (
+      <PrivateRoute>
+        <UpdateUser />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/user-log',
+    element: (
+      <PrivateRoute>
+        <UserLog />
       </PrivateRoute>
     ),
   },
