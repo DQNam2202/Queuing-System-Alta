@@ -1,50 +1,54 @@
 import PrivateRoute from './privateRoute';
 import PublicRoute from './publicRoute';
 import { RouteObject } from 'react-router-dom';
-
 //Public Pages
-
 //Admin Pages
-import Dashboard from '../pages/Layout/Dashboard';
-import Page404 from '../components/Page404';
+
+import Dashboard from '../pages/CMS/Dashboard';
 import Login from '../pages/Home/Login';
-import CreateNewPassword from '../pages/Home/CreateNewPassword';
 import ResetPassword from '../pages/Home/ResetPassword';
-import GearLevelDevice from '../pages/Users/GearLevelDevice';
-import SettingDisplayDevice from '../pages/Users/SettingDisplayDevice';
-import SettingGearDevice from '../pages/Users/SettingGearLevelDevice';
-import SettingViewDevice from '../pages/Users/SettingViewDeviceCounte';
-import ViewDeviceCounte from '../pages/Users/ViewDeviceCounte';
-import ViewDeviceMain from '../pages/Users/ViewDeviceMain';
-import DrawNumbers from '../pages/User-Interaction/DrawNumbers';
-import LoginViewProfile from '../pages/Home/LoginViewProfile';
-import Profile from '../pages/Layout/Profile';
-import DeviceManager from '../pages/Layout/DeviceManagement';
-import AddDevice from '../pages/Layout/DeviceManagement/AddDevice';
-import DetailDevice from '../pages/Layout/DeviceManagement/DetailDevice';
-import UpdateDevice from '../pages/Layout/DeviceManagement/UpdateDevice';
-import ServiceManager from '../pages/Layout/ServiceManager';
-import AddService from '../pages/Layout/ServiceManager/AddService';
-import UpdateService from '../pages/Layout/ServiceManager/UpdateService';
-import DetailService from '../pages/Layout/ServiceManager/DetailService';
-import ReportManager from '../pages/Layout/ReportManagement';
-import ProgressManager from '../pages/Layout/ProgressionManager';
-import AddProgression from '../pages/Layout/ProgressionManager/AddProgression';
-import DetailProgression from '../pages/Layout/ProgressionManager/DetailProgression';
-import OleManager from '../pages/Layout/OleManagement';
-import AddOle from '../pages/Layout/OleManagement/AddOle';
-import UpdateOle from '../pages/Layout/OleManagement/UpdateOle';
-import UserManager from '../pages/Layout/UserManagement';
-import AddUser from '../pages/Layout/UserManagement/AddUser';
-import UpdateUser from '../pages/Layout/UserManagement/UpdateUser';
-import UserLog from '../pages/Layout/UserLog';
+import ResetNewPassword from '../pages/Home/ResetNewPassword';
+import GearLevelDevice from '../pages/User/GearLevelDevice';
+import ViewDeviceCounte from '../pages/User/ViewDeviceCounte';
+import ViewDeviceMain from '../pages/User/ViewDeviceMain';
+import Page404 from '../components/Page404';
+
+// import FillImformation from '../pages/Interaction/PopupImformation';
+import SettingGearDevice from '../pages/User/SettingGearLevelDevice';
+import SettingViewDevice from '../pages/User/SettingViewDeviceCounte';
+import SettingDisplayDevice from '../pages/User/SettingDisplayDevice';
+// Services managers
+import ServiceManager from '../pages/CMS/ServiceManager';
+import AddService from '../pages/CMS/ServiceManager/AddService';
+import UpdateService from '../pages/CMS/ServiceManager/UpdateService';
+import DetailService from '../pages/CMS/ServiceManager/DetailService';
+//Devices managers
+
+import DeviceManager from '../pages/CMS/DeviceManagement';
+import AddDevice from '../pages/CMS/DeviceManagement/AddDevice';
+import DetailDevice from '../pages/CMS/DeviceManagement/DetailDevice';
+import UpdateDevice from '../pages/CMS/DeviceManagement/UpdateDevice';
+//Progression managers
+import ProgressManager from '../pages/CMS/ProgressionManager';
+import AddProgression from '../pages/CMS/ProgressionManager/AddProgression';
+import DetailProgression from '../pages/CMS/ProgressionManager/DetailProgression';
+// Profile
+import Profile from '../pages/CMS/Profile';
+import ReportManager from '../pages/CMS/ReportManagement';
+import OleManager from '../pages/CMS/OleManagement';
+import AddOle from '../pages/CMS/OleManagement/AddOle';
+import UpdateOle from '../pages/CMS/OleManagement/UpdateOle';
+import UserManager from '../pages/CMS/UserManagement';
+import AddUser from '../pages/CMS/UserManagement/AddUser';
+import UpdateUser from '../pages/CMS/UserManagement/UpdateUser';
+import UserLog from '../pages/CMS/UserLog';
 
 export const routes: RouteObject[] = [
   {
     path: '/',
     element: (
       <PublicRoute>
-        <h2>Wellcome to DuongNam</h2>
+        <h2>Hello world</h2>
       </PublicRoute>
     ),
   },
@@ -68,12 +72,12 @@ export const routes: RouteObject[] = [
     path: '/newpass',
     element: (
       <PublicRoute>
-        <CreateNewPassword />
+        <ResetNewPassword />
       </PublicRoute>
     ),
   },
   {
-    path: '/level-device',
+    path: '/leveldevice',
     element: (
       <PublicRoute>
         <GearLevelDevice />
@@ -81,24 +85,7 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: '/view-device',
-    element: (
-      <PublicRoute>
-        <ViewDeviceCounte />
-      </PublicRoute>
-    ),
-  },
-
-  {
-    path: '/view-device-main',
-    element: (
-      <PublicRoute>
-        <ViewDeviceMain />
-      </PublicRoute>
-    ),
-  },
-  {
-    path: '/setting-device',
+    path: '/settinggear',
     element: (
       <PublicRoute>
         <SettingGearDevice />
@@ -106,15 +93,7 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: '/setting-display-device',
-    element: (
-      <PublicRoute>
-        <SettingDisplayDevice />
-      </PublicRoute>
-    ),
-  },
-  {
-    path: '/setting-view-device',
+    path: '/viewsettinggear',
     element: (
       <PublicRoute>
         <SettingViewDevice />
@@ -122,19 +101,35 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: '/draw-number',
+    path: '/displaydevice',
     element: (
       <PublicRoute>
-        <DrawNumbers />
+        <SettingDisplayDevice />
       </PublicRoute>
     ),
   },
   {
-    path: '/login-profile',
+    path: '/devicemain',
     element: (
       <PublicRoute>
-        <LoginViewProfile />
+        <ViewDeviceMain />
       </PublicRoute>
+    ),
+  },
+  {
+    path: '/viewdevice',
+    element: (
+      <PublicRoute>
+        <ViewDeviceCounte />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/dashboard',
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
     ),
   },
   {
@@ -294,14 +289,6 @@ export const routes: RouteObject[] = [
     element: (
       <PrivateRoute>
         <UserLog />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: '/dashboard',
-    element: (
-      <PrivateRoute>
-        <Dashboard />
       </PrivateRoute>
     ),
   },

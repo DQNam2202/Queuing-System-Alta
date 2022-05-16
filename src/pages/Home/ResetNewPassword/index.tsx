@@ -1,47 +1,42 @@
 import React from 'react';
-import { Form, Input, Layout } from 'antd';
+import { Input, Layout } from 'antd';
 const { Sider, Content } = Layout;
 
-const Login = () => {
+const ResetNewPassword = () => {
   return (
     <React.Fragment>
       <Layout className='h-screen'>
         <Content className='w-[592px]'>
           <div className='flex justify-center items-center w-full bg-primary-light-gray'>
             <div className='flex flex-col justify-center items-center w-[400px]'>
-              <div className='w-[170px] h-[136px] mt-[60px] mb-[60px]'>
+              <div className='w-[170px] h-[137px] mt-[60px] mb-[60px]'>
                 <img
                   src='./images/Logo_alta.png'
-                  alt='Logo-Alta'
+                  alt='Logo'
                   className='w-full h-full object-cover'
                 />
               </div>
               <div className='w-full'>
                 <form className='w-full'>
-                  <div>
-                    <label className='text-lg text-primary-gray-300 font-normal mb-1'>
-                      Tên đăng nhập *
+                  <h1 className='text-center text-primary-gray-500 font-bold text-[22px] leading-8 mb-3'>
+                    Đặt lại mật khẩu mới
+                  </h1>
+                  <div className=''>
+                    <label className='font-normal text-primary-gray-300'>
+                      Mật khẩu
                     </label>
-                    <Input className='w-full h-11 rounded-lg  hover:border-primary' />
+                    <Input.Password className='w-full h-11 mt-1 rounded-lg' />
                   </div>
                   <div className='mt-4'>
-                    <label className='text-lg text-primary-gray-300 font-normal mb-1'>
-                      Mật khẩu *
+                    <label className='font-normal text-primary-gray-300'>
+                      Nhập lại mật khẩu
                     </label>
-                    <Input.Password className='w-full h-11 rounded-lg' />
+                    <Input.Password className='w-full h-11 mt-1 rounded-lg' />
                   </div>
-                  <div className='text-center mt-[48px]'>
-                    <button type='submit' className='btn-primary'>
-                      Đăng nhập
+                  <div className='text-center mt-[48px] '>
+                    <button type='submit' className='btn-primary text-base'>
+                      Xác nhận
                     </button>
-                  </div>
-                  <div className='flex justify-center items-center'>
-                    <a
-                      href='./'
-                      className='text-primary-red mt-2 text-base font-normal text-center hover:text-primary-red'
-                    >
-                      Quên mật khẩu?
-                    </a>
                   </div>
                 </form>
               </div>
@@ -52,7 +47,7 @@ const Login = () => {
           <div
             style={{
               height: '100vh',
-              backgroundImage: 'url(./images/poster01.png)',
+              backgroundImage: 'url(./images/poster02.png)',
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
               backgroundPosition: 'center center',
@@ -65,4 +60,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetNewPassword;

@@ -55,7 +55,6 @@ h5,
 h6 {
   overflow-wrap: break-word;
 }
-
 .btn-primary {
   width: 162px;
   display: inline-block;
@@ -87,7 +86,6 @@ h6 {
     outline: none;
   }
 }
-
 .btn-gray {
   width: 213px;
   cursor: pointer;
@@ -203,4 +201,10 @@ h6 {
 
 .dashboard .main__content {
   background: #b1b1b1;
+}
+
+.shadow-dashboard-content{
+  box-shadow: 2px 2px 8px rgba(232, 239, 244, 0.8);
+  border-radius: 16px;
+  background: #fff;
 }
