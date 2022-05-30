@@ -129,7 +129,6 @@ const AddService = (props: Props) => {
         });
         return;
       }
-      console.log(value);
       let newVal = "0001";
       if (value.length === 2) {
         newVal = `00${value}`;
@@ -297,15 +296,18 @@ const AddService = (props: Props) => {
           </span>
           <Form.Item>
             <Space align="center" className=" flex justify-center w-full md:mt-4">
-              <Button className="bg-primary-50 rounded-lg border-primary  text-primary  text-center px-[15px] py-[4px] font-bold hover:text-primary hover:border-primary">
-                Hủy bỏ
-              </Button>
-              <Button
-                className="bg-primary rounded-lg border-primary  text-white  text-center px-[15px] py-[4px] font-bold hover:border-primary hover:bg-primary hover:text-white"
-                htmlType="submit"
-              >
-                Cập nhật
-              </Button>
+            <button
+              type='submit'
+              className='w-[160px] text-primary-400 px-6 py-[13px] rounded-lg font-bold text-base outline-none border[1.5px] border-solid border-primary-400 bg-primary-50 leading-[22px]'
+            >
+              Hủy bỏ
+            </button>
+              <button
+              type='submit'
+              className='w-[160px] text-white px-6 py-[13px] rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-primary-400 leading-[22px]'
+            >
+              Cập nhật
+            </button>
             </Space>
           </Form.Item>
         </Form>

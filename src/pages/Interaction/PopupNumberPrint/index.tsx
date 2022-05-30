@@ -2,25 +2,19 @@ import React, { MouseEventHandler, useState } from 'react';
 import { Modal, Button } from 'antd';
 import './style.scss';
 type Props = {
-  showModal : MouseEventHandler,
-  handleOk : MouseEventHandler,
-  handleCancel : MouseEventHandler,
-  isModalVisible : boolean
-}
-const PopupNumberPrint = (props : Props) => {
-
-  const {showModal,
-    handleOk,
-    handleCancel,
-    isModalVisible} = props;
+  showModal: MouseEventHandler;
+  handleOk: MouseEventHandler;
+  handleCancel: MouseEventHandler;
+  isModalVisible: boolean;
+};
+const PopupNumberPrint = (props: Props) => {
+  const { showModal, handleOk, handleCancel, isModalVisible } = props;
 
   return (
-    <div className='flex justify-center items-center w-full min-h-screen'>
-      <Button type='primary' onClick={showModal}>
-        Open Modal
-      </Button>
+    <div className='flex justify-center items-center w-full min-h-screen '>
       <Modal
         title=''
+        className='modal-number'
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}

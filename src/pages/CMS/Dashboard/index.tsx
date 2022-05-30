@@ -45,7 +45,7 @@ const data = function () {
       datasets: [
         {
           label: 'Chanllenge',
-          data: [33, 53, 85, 41, 44, 65],
+          data: [33, 100, 85, 100, 70, 100],
           fill: true,
           backgroundColor: gradient,
           borderColor: '#5185F7',

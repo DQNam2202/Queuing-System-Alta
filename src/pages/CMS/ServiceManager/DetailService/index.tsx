@@ -123,7 +123,7 @@ const ServiceManager = (props: Props) => {
         </div>
         <div className="w-4/6 list-content lg:w-full lg:mt-4">
           <div className="controls flex justify-between xl:flex-col">
-            <div className="flex gap-x-2">
+            <div className="flex gap-x-1 mr-1">
               <div className="item flex flex-col text-sm">
                 <span className="font-semibold">Trạng thái</span>
                 <Select

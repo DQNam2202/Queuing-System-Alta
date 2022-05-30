@@ -1,37 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEventHandler } from 'react';
 import { Modal, Button, Input } from 'antd';
 import './style.scss';
-const FillImformation = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const showModal = () => {
-    setIsModalVisible(true);
+import PopupNumberPrint from '../../Interaction/PopupNumberPrint';
+
+type Props = {
+  showModal: MouseEventHandler;
+  handleOk: MouseEventHandler;
+  handleCancel: MouseEventHandler;
+  isModalVisible: boolean;
+};
+const FillImformation = (props: Props) => {
+  const [isModalVisible1, setIsModalVisible1] = useState(false);
+
+  const showModal1 = () => {
+    setIsModalVisible1(true);
   };
 
   const handleOk = (e: any) => {
     e.preventDefault();
-    setIsModalVisible(false);
   };
 
-  const handleCancel = (e: any) => {
+  const handleCancel1 = (e: any) => {
     e.preventDefault();
-    setIsModalVisible(false);
+    setIsModalVisible1(false);
   };
+
+  const { showModal, handleCancel, isModalVisible } = props;
   return (
-    <div className='flex justify-center items-center min-h-screen'>
+    <div className='flex justify-center items-center min-h-screen '>
       <div className=''>
-        <Button type='primary' onClick={showModal}>
-          Click me
-        </Button>
         <Modal
+          className='modal-imformation'
           title='Điền thông tin của bạn'
           closable={false}
+          onCancel={handleCancel}
           visible={isModalVisible}
           footer={null}
         >
           <div className='flex justify-center items-center w-full'>
             <div className='flex flex-col justify-center items-center w-[499px]'>
               <div className='w-full'>
-                <form className='w-full'>
+                <form
+                  className='w-full'
+                  onSubmit={e => {
+                    e.preventDefault();
+                  }}
+                >
                   <div className=''>
                     <label className='text-base font-normal text-primary-gray-500'>
                       Họ và tên <span className='text-[#FF4747]'>*</span>
@@ -74,7 +88,7 @@ const FillImformation = () => {
                     <button
                       type='submit'
                       className='btn-primary'
-                      onClick={handleOk}
+                      onClick={showModal1}
                     >
                       Xác nhận
                     </button>
@@ -85,6 +99,13 @@ const FillImformation = () => {
           </div>
         </Modal>
       </div>
+      <PopupNumberPrint
+        handleCancel={handleCancel1}
+        handleOk={handleOk}
+        isModalVisible={isModalVisible1}
+        showModal={showModal1}
+      ></PopupNumberPrint>
+      ;
     </div>
   );
 };

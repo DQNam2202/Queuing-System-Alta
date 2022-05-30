@@ -2,7 +2,7 @@ import { CaretDownOutlined } from "@ant-design/icons";
 import { Button, Select, Space } from "antd";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import PopupNumberPrint from "../../../Interaction/PopupNumberPrint";
+import PopupImformation from "../../../Interaction/PopupImformation";
 
 type Props = {};
 
@@ -76,7 +76,7 @@ const AddProgression = (props: Props) => {
           </button>
         </Space>
       </div>
-      <PopupNumberPrint handleCancel={handleCancel} handleOk={handleOk} isModalVisible={isModalVisible} showModal={showModal}/>
+      <PopupImformation handleCancel={handleCancel} handleOk={handleOk} isModalVisible={isModalVisible} showModal={showModal}/>
     </div>
   );
 };

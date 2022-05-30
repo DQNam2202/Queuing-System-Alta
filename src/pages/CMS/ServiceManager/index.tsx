@@ -108,7 +108,7 @@ const ServiceManager = (props: Props) => {
         <span className='text-primary font-bold'>Danh sách dịch vụ</span>
       </div>
       <h2 className='text-primary text-2xl font-bold mb-4'>Quản lý dịch vụ</h2>
-      <div className='controls flex justify-between md:flex-col'>
+      <div className='controls flex justify-between md:flex-col md:items-center'>
         <div className='flex gap-x-2 xl:flex-col '>
           <div className='item flex flex-col text-sm'>
             <span className='font-semibold'>Trạng thái hoạt động</span>
