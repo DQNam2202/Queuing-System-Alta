@@ -16,11 +16,11 @@ const Profile = () => {
   };
   useEffect(() => {
     form.setFieldsValue({
-      username: 'Lê Huỳnh Ái Vân',
-      phoneNumber: '0392680721',
-      email: 'huynhleaivan2000@gmail.com',
-      loginName: 'huynhaivan123',
-      password: 'huynhaivan@123',
+      username: 'Hồ Thị Kim Nguyên',
+      phoneNumber: '0779382202',
+      email: 'kimnguyen2604@gmail.com',
+      loginName: 'nguyen123',
+      password: 'nguyen@123',
       role: 'Inter Front-End Developer',
     });
   }, []);
@@ -40,28 +40,32 @@ const Profile = () => {
           onValuesChange={onFormLayoutChange}
         >
           <Row gutter={{ sm: 16, md: 24, lg: 32 }}>
-            <Col className='gutter-row' xs={24} sm={24}  lg={8} md={24}>
+            <Col className='gutter-row' xs={24} sm={24} lg={8} md={24}>
               <div className='relative flex flex-col justify-center items-center'>
                 <div className='lg:w-40 lg:h-40 w-[248px] h-[248px] text-center relative'>
                   <img
                     className='w-full h-full object-cover rounded-[318px]'
-                    src='https://i.pinimg.com/236x/57/dc/75/57dc75dde00479a9668945fa251ba92b.jpg'
+                    src='https://images.unsplash.com/flagged/photo-1556151994-b611e5ab3675?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80'
                     alt='avatar'
                   />
                   <div className='absolute w-11 h-11 -bottom-2 left-3/4 -translate-x-3/4 bg-primary border-2 border-solid border-white flex justify-center items-center rounded-full cursor-pointer'>
-                  <Form.Item
-                    name='upload'
-                    valuePropName='fileList'
-                    getValueFromEvent={normFile}
-                  >
-                    <Upload name='logo' action='/upload.do' listType='picture'>
-                      <Button icon={<CameraOutlined />}></Button>
-                    </Upload>
-                  </Form.Item>
-                </div>
+                    <Form.Item
+                      name='upload'
+                      valuePropName='fileList'
+                      getValueFromEvent={normFile}
+                    >
+                      <Upload
+                        name='logo'
+                        action='/upload.do'
+                        listType='picture'
+                      >
+                        <Button icon={<CameraOutlined />}></Button>
+                      </Upload>
+                    </Form.Item>
+                  </div>
                 </div>
                 <h2 className='mt-5 text-center text-2xl font-bold leading-9 text-primary-gray-500'>
-                  Lê Huỳnh Ái Vân
+                  Hồ Thị Kim Nguyên
                 </h2>
               </div>
             </Col>
