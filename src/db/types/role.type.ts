@@ -1,5 +1,5 @@
 export default interface Role {
-  Id: string;
+  id: string;
   tenVaiTro: string;
   moTa: string;
 }

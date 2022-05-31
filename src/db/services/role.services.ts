@@ -1,21 +1,7 @@
-// USER MODEL
-/** Schema --->
- * tenDangNhap: String (key)
-	hoTen: String
-	soDienThoai: String VietNamese Phone
-	email: Email (unique)
-  matKhau: String
-	vaiTro: id reference from Role
-	trangThai: Boolean
- */
 import {
   doc,
   updateDoc,
-  arrayUnion,
-  getDoc,
-  deleteDoc,
   setDoc,
-  onSnapshot,
   getDocs,
   collection,
 } from 'firebase/firestore';
@@ -25,13 +11,12 @@ import IRole from '../types/role.type';
 const db = firebase;
 
 class RoleServices {
-  // addNewUser = async (user: IRole) => {
-  //   let document = doc(db, 'user', user.tenDangNhap);
-  //   let temp = { ...user };
-  //   updateDoc(document, {
-  //     ...temp,
-  //   });
-  // };
+  addRole = async (tenVaiTro: string, moTa: string) => {
+    await setDoc(doc(collection(db, 'role')), {
+      tenVaiTro: tenVaiTro,
+      moTa: moTa,
+    });
+  };
 
   getRole = async () => {
     let role: IRole[] = [];
@@ -47,11 +32,12 @@ class RoleServices {
     return role;
   };
 
-  // updateUser = async (user: IUser) => {
-  //   let document = doc(db, 'user', user.tenDangNhap);
-  //   updateDoc(document, {
-  //     ...user,
-  //   });
-  // };
+  updateRole = async (id: string, tenVaiTro: string, moTa: string) => {
+    const frankDocRef = doc(collection(db, 'role'), id);
+    await updateDoc(frankDocRef, {
+      tenVaiTro: tenVaiTro,
+      moTa: moTa,
+    });
+  };
 }
 export default new RoleServices();

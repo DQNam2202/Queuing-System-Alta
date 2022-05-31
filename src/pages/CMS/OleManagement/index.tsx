@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Input } from 'antd';
 import { Table } from 'antd';
 import './style.scss';
 import { Link } from 'react-router-dom';
 import RoleServices from '../../../db/services/role.services';
-import Item from 'antd/lib/list/Item';
 
 type Props = {};
 
@@ -30,7 +29,7 @@ const columns = [
     render: (item: any, record: any) => (
       <Link
         className='text-blue-500 underline'
-        to={`/ole-management/update/${record.tenVaiTro}`}
+        to={`/ole-management/update/${record.id}`}
       >
         Cập nhật
       </Link>
@@ -38,6 +37,8 @@ const columns = [
   },
 ];
 const OleManager = (props: Props) => {
+  const [role, setRole] = useState([]);
+  const searchRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [table, setTable] = useState({
     data: [],
     pagination: {
@@ -47,9 +48,36 @@ const OleManager = (props: Props) => {
     loading: false,
   });
 
+  // Remove vietnamese character
+  const removeAccents = (str: string) => {
+    var AccentsMap = [
+      'aàảãáạăằẳẵắặâầẩẫấậ',
+      'AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬ',
+      'dđ',
+      'DĐ',
+      'eèẻẽéẹêềểễếệ',
+      'EÈẺẼÉẸÊỀỂỄẾỆ',
+      'iìỉĩíị',
+      'IÌỈĨÍỊ',
+      'oòỏõóọôồổỗốộơờởỡớợ',
+      'OÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢ',
+      'uùủũúụưừửữứự',
+      'UÙỦŨÚỤƯỪỬỮỨỰ',
+      'yỳỷỹýỵ',
+      'YỲỶỸÝỴ',
+    ];
+    for (var i = 0; i < AccentsMap.length; i++) {
+      var re = new RegExp('[' + AccentsMap[i].substr(1) + ']', 'g');
+      var char = AccentsMap[i][0];
+      str = str.replace(re, char);
+    }
+    return str;
+  };
+
   useEffect(() => {
     RoleServices.getRole().then((res: any) => {
       res = res.map((item: any) => ({ ...item, key: item.id }));
+      setRole(res);
       setTable({
         ...table,
         data: res,
@@ -59,6 +87,22 @@ const OleManager = (props: Props) => {
 
   const handlePanigationChange = (current: any) => {
     setTable({ ...table, pagination: { ...table.pagination, current } });
+  };
+  const handelSearch = (e: React.FormEvent<HTMLInputElement>) => {
+    let value = e.currentTarget.value;
+    if (searchRef) {
+      clearInterval(searchRef.current as any);
+    }
+    searchRef.current = setTimeout(() => {
+      let temp = role.filter((item: any) =>
+        removeAccents(item.tenVaiTro.toLocaleLowerCase()).includes(
+          removeAccents(value.toLocaleLowerCase()),
+        ),
+      );
+
+      setTable({ ...table, data: temp as any });
+      clearInterval(searchRef.current as any);
+    }, 700);
   };
 
   return (
@@ -79,7 +123,8 @@ const OleManager = (props: Props) => {
           </span>
           <Input.Search
             placeholder='Nhập từ khóa'
-            onSearch={value => console.log(value)}
+            // onSearch={value => console.log(value)}
+            onChange={handelSearch}
             className='w-[240px] h-11 text-primary-gray-400'
           />
         </div>

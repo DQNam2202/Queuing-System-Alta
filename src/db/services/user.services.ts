@@ -1,50 +1,48 @@
-// USER MODEL
-/** Schema --->
- * tenDangNhap: String (key)
-	hoTen: String
-	soDienThoai: String VietNamese Phone
-	email: Email (unique)
-  matKhau: String
-	vaiTro: id reference from Role
-	trangThai: Boolean
- */
 import {
   doc,
   updateDoc,
-  arrayUnion,
-  getDoc,
-  deleteDoc,
   setDoc,
-  onSnapshot,
+  getDocs,
+  collection,
 } from 'firebase/firestore';
 import firebase from '../firebase';
-import IUser from '../types/user.type';
+import IUser from '../types/role.type';
 
 const db = firebase;
 
 class UserServices {
-  addNewUser = async (user: IUser) => {
-    let document = doc(db, 'user', user.tenDangNhap);
-    let temp = { ...user };
-    updateDoc(document, {
-      ...temp,
+  // addUser = async (tenVaiTro: string, moTa: string) => {
+  //   await setDoc(doc(collection(db, 'user')), {
+  //     tenVaiTro: tenVaiTro,
+  //     moTa: moTa,
+  //   });
+  // };
+
+  getUser = async () => {
+    let userList: IUser[] = [];
+    const querySnapshot = await getDocs(collection(db, 'user'));
+    querySnapshot.forEach(doc => {
+      let user: any = {
+        id: doc.id,
+        tenDangNhap: doc.data().tenDangNhap,
+        hoTen: doc.data().hoTen,
+        soDienThoai: doc.data().soDienThoai,
+        email: doc.data().email,
+        matKhau: doc.data().matKhau,
+        vaiTro: doc.data().vaiTro,
+        trangThai: doc.data().trangThai,
+      };
+      userList.push(user);
     });
+    return userList;
   };
 
-  getUser = async (tenDangNhap: string) => {
-    let document = doc(db, 'user');
-    onSnapshot(document, (snapshot: any) => {
-      if (snapshot.exists) {
-        return snapshot.data();
-      }
-    });
-  };
-
-  updateUser = async (user: IUser) => {
-    let document = doc(db, 'user', user.tenDangNhap);
-    updateDoc(document, {
-      ...user,
-    });
-  };
+  // updateUser = async (id: string, tenVaiTro: string, moTa: string) => {
+  //   const frankDocRef = doc(collection(db, 'user'), id);
+  //   await updateDoc(frankDocRef, {
+  //     tenVaiTro: tenVaiTro,
+  //     moTa: moTa,
+  //   });
+  // };
 }
 export default new UserServices();
