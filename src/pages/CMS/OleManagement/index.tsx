@@ -3,6 +3,9 @@ import { Input } from 'antd';
 import { Table } from 'antd';
 import './style.scss';
 import { Link } from 'react-router-dom';
+import RoleServices from '../../../db/services/role.services';
+import Item from 'antd/lib/list/Item';
+
 type Props = {};
 
 const columns = [
@@ -34,14 +37,6 @@ const columns = [
     ),
   },
 ];
-const oleList = [
-  'Kế toán',
-  'Bác sĩ',
-  'Lễ tân',
-  'Quản lý',
-  'Admin',
-  'Superadmin',
-];
 const OleManager = (props: Props) => {
   const [table, setTable] = useState({
     data: [],
@@ -53,20 +48,13 @@ const OleManager = (props: Props) => {
   });
 
   useEffect(() => {
-    //Data demo
-    const data = [];
-    for (let index = 0; index < 50; index++) {
-      let indexOle = Math.floor(Math.random() * oleList.length);
-      let temp = {
-        key: index,
-        tenVaiTro: oleList[indexOle],
-        soNguoiDung: 6,
-        moTa: 'Thực hiện nhiệm vụ về thống kê số liệu và tổng hợp số liệu',
-      };
-      data.push(temp);
-    }
-
-    setTable({ ...table, data: data as any });
+    RoleServices.getRole().then((res: any) => {
+      res = res.map((item: any) => ({ ...item, key: item.id }));
+      setTable({
+        ...table,
+        data: res,
+      });
+    });
   }, []);
 
   const handlePanigationChange = (current: any) => {

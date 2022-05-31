@@ -40,47 +40,46 @@ import UpdateUser from '../pages/CMS/UserManagement/UpdateUser';
 // User log Managers
 import UserLog from '../pages/CMS/UserLog';
 // UnderGraves
-import UDashboard from "../pages/UGraves/UDashboard";
-import UDashboard2 from "../pages/UGraves/UDashboard2";
+import UDashboard from '../pages/UGraves/UDashboard';
+import UDashboard2 from '../pages/UGraves/UDashboard2';
 
 // Private routes
 export const privatesRoute = [
-  {path: '/dashboard' , component : Dashboard},
-  {path: '/dashboard/profile' , component : Profile},
-  {path: '/devices-management' , component : DeviceManager},
-  {path: '/devices-management/add' , component : AddDevice},
-  {path: '/devices-management/detail/:id' , component : DetailDevice},
-  {path: '/devices-management/update/:id' , component : UpdateDevice},
-  {path: '/services-management' , component : ServiceManager},
-  {path: '/services-management/add' , component : AddService},
-  {path: '/services-management/update/:id' , component : UpdateService},
-  {path: '/services-management/detail/:id' , component : DetailService},
-  {path: '/reports-management' , component : ReportManager},
-  {path: '/progression-management' , component : ProgressManager},
-  {path: '/progression-management/add' , component : AddProgression},
-  {path: '/progression-management/detail/:id' , component : DetailProgression},
-  {path: '/ole-management' , component : OleManager},
-  {path: '/ole-management/add' , component : AddOle},
-  {path: '/ole-management/update/:id' , component : UpdateOle},
-  {path: '/user-management' , component : UserManager},
-  {path: '/user-management/add' , component : AddUser},
-  {path: '/user-management/update/:id' , component : UpdateUser},
-  {path: '/user-log' , component : UserLog},
-  {path: '/under-graves' , component : UDashboard},
-  {path: '/under-graves/dashboard2' , component : UDashboard2},
-
-]
+  { path: '/dashboard', component: Dashboard },
+  { path: '/dashboard/profile', component: Profile },
+  { path: '/devices-management', component: DeviceManager },
+  { path: '/devices-management/add', component: AddDevice },
+  { path: '/devices-management/detail/:id', component: DetailDevice },
+  { path: '/devices-management/update/:id', component: UpdateDevice },
+  { path: '/services-management', component: ServiceManager },
+  { path: '/services-management/add', component: AddService },
+  { path: '/services-management/update/:id', component: UpdateService },
+  { path: '/services-management/detail/:id', component: DetailService },
+  { path: '/reports-management', component: ReportManager },
+  { path: '/progression-management', component: ProgressManager },
+  { path: '/progression-management/add', component: AddProgression },
+  { path: '/progression-management/detail/:id', component: DetailProgression },
+  { path: '/ole-management', component: OleManager },
+  { path: '/ole-management/add', component: AddOle },
+  { path: '/ole-management/update/:id', component: UpdateOle },
+  { path: '/user-management', component: UserManager },
+  { path: '/user-management/add', component: AddUser },
+  { path: '/user-management/update/:id', component: UpdateUser },
+  { path: '/user-log', component: UserLog },
+  { path: '/under-graves', component: UDashboard },
+  { path: '/under-graves/dashboard2', component: UDashboard2 },
+];
 
 export const publicRoutes = [
-  {path: '/' , component : Login},
-  {path: '/login' , component : Login},
-  {path: '/resetpass' , component : ResetPassword},
-  {path: '/newpass' , component : ResetNewPassword},
-  {path: '/leveldevice' , component : GearLevelDevice},
-  {path: '/settinggear' , component : SettingGearDevice},
-  {path: '/viewsettinggear' , component : SettingViewDevice},
-  {path: '/displaydevice' , component : SettingDisplayDevice},
-  {path: '/devicemain' , component : ViewDeviceMain},
-  {path: '/viewdevice' , component : ViewDeviceCounte},
-  {path: '*' , component : Page404},
-]
+  { path: '/', component: Login },
+  { path: '/login', component: Login },
+  { path: '/resetpass', component: ResetPassword },
+  { path: '/newpass', component: ResetNewPassword },
+  { path: '/leveldevice', component: GearLevelDevice },
+  { path: '/settinggear', component: SettingGearDevice },
+  { path: '/viewsettinggear', component: SettingViewDevice },
+  { path: '/displaydevice', component: SettingDisplayDevice },
+  { path: '/devicemain', component: ViewDeviceMain },
+  { path: '/viewdevice', component: ViewDeviceCounte },
+  { path: '*', component: Page404 },
+];
