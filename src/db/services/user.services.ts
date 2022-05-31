@@ -11,12 +11,25 @@ import IUser from '../types/role.type';
 const db = firebase;
 
 class UserServices {
-  // addUser = async (tenVaiTro: string, moTa: string) => {
-  //   await setDoc(doc(collection(db, 'user')), {
-  //     tenVaiTro: tenVaiTro,
-  //     moTa: moTa,
-  //   });
-  // };
+  addUser = async (
+    tenDangNhap: string,
+    hoTen: string,
+    soDienThoai: string,
+    email: string,
+    matKhau: string,
+    vaiTro: string,
+    trangThai: boolean,
+  ) => {
+    await setDoc(doc(collection(db, 'user')), {
+      tenDangNhap: tenDangNhap,
+      hoTen: hoTen,
+      soDienThoai: soDienThoai,
+      email: email,
+      matKhau: matKhau,
+      vaiTro: vaiTro,
+      trangThai: trangThai,
+    });
+  };
 
   getUser = async () => {
     let userList: IUser[] = [];

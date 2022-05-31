@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Input, Select } from 'antd';
 import { Table } from 'antd';
 import { CaretDownOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import UserServices from '../../../db/services/user.services';
+import RoleServices from '../../../db/services/role.services';
+import Role from '../../../db/types/role.type';
+
 import './style.scss';
 type Props = {};
 
@@ -15,7 +19,7 @@ const columns = [
   {
     title: 'Họ tên',
     dataIndex: 'hoTen',
-    width: '15%',
+    width: '18%',
   },
   {
     title: 'Số điện thoại',
@@ -54,7 +58,7 @@ const columns = [
     render: (item: any, record: any) => (
       <Link
         className='text-blue-500 underline'
-        to={`/user-management/update/${record.tenDangNhap}`}
+        to={`/user-management/update/${record.id}`}
       >
         Cập nhật
       </Link>
@@ -63,6 +67,9 @@ const columns = [
 ];
 
 const UserManager = (props: Props) => {
+  const [user, setUser] = useState([]);
+  const [role, setRole] = useState<Role[]>([]);
+  const searchRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [table, setTable] = useState({
     data: [],
     pagination: {
@@ -72,30 +79,87 @@ const UserManager = (props: Props) => {
     loading: false,
   });
   const { Option } = Select;
-  function handleChange(value: any) {
-    console.log(`Selected: ${value}`);
-  }
-  const handleDateChange = (date: any, dateString: String) => {
-    console.log(date, dateString);
-  };
-  useEffect(() => {
-    //Data demo
-    const data = [];
-    for (let index = 0; index < 50; index++) {
-      const randomPhone = Math.floor(Math.random() * 1000000000);
-      let temp = {
-        key: index,
-        tenDangNhap: `tuyetnguyen@1${index}`,
-        hoTen: `Nguyễn Văn ${(index + 9).toString(36).toUpperCase()}`,
-        soDienThoai: randomPhone,
-        email: 'tuyetnguyen123@gmail.com',
-        vaiTro: 'Kế toán',
-        trangThai: index % 2 === 0 ? true : false,
-      };
-      data.push(temp);
+
+  function handelChangeSelect(value: any) {
+    if (value === 'all') {
+      setTable({
+        ...table,
+        data: user as any,
+      });
+      return;
     }
-    setTable({ ...table, data: data as any });
+    const roleItem =
+      role[role.findIndex((role: any) => role.id === value)].tenVaiTro;
+    const data = user.filter((item: any) => item.vaiTro === roleItem);
+    setTable({
+      ...table,
+      data: data as any,
+    });
+  }
+
+  // Remove vietnamese character
+  const removeAccents = (str: string) => {
+    var AccentsMap = [
+      'aàảãáạăằẳẵắặâầẩẫấậ',
+      'AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬ',
+      'dđ',
+      'DĐ',
+      'eèẻẽéẹêềểễếệ',
+      'EÈẺẼÉẸÊỀỂỄẾỆ',
+      'iìỉĩíị',
+      'IÌỈĨÍỊ',
+      'oòỏõóọôồổỗốộơờởỡớợ',
+      'OÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢ',
+      'uùủũúụưừửữứự',
+      'UÙỦŨÚỤƯỪỬỮỨỰ',
+      'yỳỷỹýỵ',
+      'YỲỶỸÝỴ',
+    ];
+    for (var i = 0; i < AccentsMap.length; i++) {
+      var re = new RegExp('[' + AccentsMap[i].substr(1) + ']', 'g');
+      var char = AccentsMap[i][0];
+      str = str.replace(re, char);
+    }
+    return str;
+  };
+
+  useEffect(() => {
+    RoleServices.getRole().then((roles: any) => {
+      setRole(roles);
+      UserServices.getUser().then((res: any) => {
+        res = res.map((item: any) => ({
+          ...item,
+          key: item.id,
+          vaiTro:
+            roles[roles.findIndex((role: any) => role.id === item.vaiTro)]
+              .tenVaiTro,
+        }));
+        setUser(res);
+        setTable({
+          ...table,
+          data: res,
+        });
+      });
+    });
   }, []);
+
+  const handelSearch = (e: React.FormEvent<HTMLInputElement>) => {
+    let value = e.currentTarget.value;
+    if (searchRef) {
+      clearInterval(searchRef.current as any);
+    }
+
+    searchRef.current = setTimeout(() => {
+      let temp = user.filter((item: any) =>
+        removeAccents(item.hoTen.toLocaleLowerCase()).includes(
+          removeAccents(value.toLocaleLowerCase()),
+        ),
+      );
+
+      setTable({ ...table, data: temp as any });
+      clearInterval(searchRef.current as any);
+    }, 700);
+  };
 
   const handlePanigationChange = (current: any) => {
     setTable({ ...table, pagination: { ...table.pagination, current } });
@@ -118,14 +182,22 @@ const UserManager = (props: Props) => {
             </span>
             <Select
               suffixIcon={<CaretDownOutlined />}
-              onChange={handleChange}
+              onChange={handelChangeSelect}
               defaultValue={'Tất cả'}
               className='w-[300px] h-11 text-primary-gray-400'
             >
-              <Option value='all'>Tất cả</Option>
-              <Option value='keToan'>Kế toán</Option>
-              <Option value='manager'>Quản lý</Option>
-              <Option value='admin'>Admin</Option>
+              <Option value='all' key='all'>
+                Tất cả
+              </Option>
+              {role && role.length > 0
+                ? role.map(item => {
+                    return (
+                      <Option value={item.id} key={item.id}>
+                        {item.tenVaiTro}
+                      </Option>
+                    );
+                  })
+                : null}
             </Select>
           </div>
         </div>
@@ -135,7 +207,8 @@ const UserManager = (props: Props) => {
           </span>
           <Input.Search
             placeholder='Nhập từ khóa'
-            onSearch={value => console.log(value)}
+            // onSearch={value => console.log(value)}
+            onChange={handelSearch}
             className='w-[300px] h-11 text-primary-gray-400'
           />
         </div>

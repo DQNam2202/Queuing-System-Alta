@@ -4,6 +4,7 @@ import './style.scss';
 import RoleServices from '../../../../db/services/role.services';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+
 type Props = {};
 
 /* eslint-disable no-template-curly-in-string */
