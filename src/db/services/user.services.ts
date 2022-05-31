@@ -50,12 +50,26 @@ class UserServices {
     return userList;
   };
 
-  // updateUser = async (id: string, tenVaiTro: string, moTa: string) => {
-  //   const frankDocRef = doc(collection(db, 'user'), id);
-  //   await updateDoc(frankDocRef, {
-  //     tenVaiTro: tenVaiTro,
-  //     moTa: moTa,
-  //   });
-  // };
+  updateUser = async (
+    id: string,
+    tenDangNhap: string,
+    hoTen: string,
+    soDienThoai: string,
+    email: string,
+    matKhau: string,
+    vaiTro: string,
+    trangThai: boolean,
+  ) => {
+    const frankDocRef = doc(collection(db, 'user'), id);
+    await updateDoc(frankDocRef, {
+      tenDangNhap: tenDangNhap,
+      hoTen: hoTen,
+      soDienThoai: soDienThoai,
+      email: email,
+      matKhau: matKhau,
+      vaiTro: vaiTro,
+      trangThai: trangThai,
+    });
+  };
 }
 export default new UserServices();

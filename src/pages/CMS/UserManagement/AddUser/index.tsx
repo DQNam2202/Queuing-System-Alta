@@ -6,14 +6,15 @@ import UserServices from '../../../../db/services/user.services';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './style.scss';
+const validateMessages = {
+  required: '${label} is required!',
+};
 const AddUser = () => {
   const { Option } = Select;
   const navigate = useNavigate();
   const [role, setRole] = useState([]);
   const [user, setUser] = useState([]);
-  const validateMessages = {
-    required: '${label} is required!',
-  };
+
   function handleChange(value: any) {
     console.log(`Selected: ${value}`);
   }
@@ -37,7 +38,9 @@ const AddUser = () => {
       </Option>,
     );
   }
-
+  const handelBackHome = () => {
+    navigate('/user-management');
+  };
   const handelAddData = (value: any) => {
     const index = user.findIndex(
       (item: any) => item.tenDangNhap === value.tenDangNhap,
@@ -59,7 +62,7 @@ const AddUser = () => {
         email,
         matKhau,
         vaiTro,
-        trangThai = value.trangThai === 'Hoạt động' ? 'true' : 'false',
+        trangThai = value.trangThai === 'Hoạt động' ? true : false,
       } = value;
       // Add user
       UserServices.addUser(
@@ -269,7 +272,10 @@ const AddUser = () => {
             Là trường thông tin bắt buộc
           </span>
           <div className='flex justify-center items-center mt-6 gap-x-8'>
-            <Button className='w-[147px] text-primary rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-white '>
+            <Button
+              className='w-[147px] text-primary rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-white '
+              onClick={handelBackHome}
+            >
               Hủy bỏ
             </Button>
             <Button

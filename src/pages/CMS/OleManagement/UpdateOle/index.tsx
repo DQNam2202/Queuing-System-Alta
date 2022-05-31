@@ -200,7 +200,7 @@ const UpdateOle = (props: Props) => {
               </Button>
               <Button
                 htmlType='submit'
-                className='w-[147px] text-white rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-primary-400 leading-[22px]'
+                className='w-[147px] text-white rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-primary-400 '
               >
                 Cập nhật
               </Button>
