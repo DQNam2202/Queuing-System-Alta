@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Row, Col, Form, Input, Upload, Button } from 'antd';
 import { CameraOutlined } from '@ant-design/icons';
+import { selectUser } from '../../../features/user/userSlice';
+import { useAppSelector } from '../../../app/hooks';
+import RoleServices from '../../../db/services/role.services';
 import './style.scss';
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 const Profile = () => {
   const [form] = Form.useForm();
+  const user = useAppSelector(selectUser);
   const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
+
   const normFile = (e: any) => {
     console.log('Upload event:', e);
     if (Array.isArray(e)) {
@@ -15,15 +20,20 @@ const Profile = () => {
     return e && e.fileList;
   };
   useEffect(() => {
-    form.setFieldsValue({
-      username: 'Hồ Thị Kim Nguyên',
-      phoneNumber: '0779382202',
-      email: 'kimnguyen2604@gmail.com',
-      loginName: 'nguyen123',
-      password: 'nguyen@123',
-      role: 'Inter Front-End Developer',
+    RoleServices.getRole().then((res: any) => {
+      form.setFieldsValue({
+        hoTen: user?.hoTen,
+        soDienThoai: user?.soDienThoai,
+        email: user?.email,
+        tenDangNhap: user?.tenDangNhap,
+        matKhau: user?.matKhau,
+        vaiTro:
+          res[res.findIndex((item: any) => item.id === user?.vaiTro)]
+            ?.tenVaiTro,
+      });
     });
-  }, []);
+  }, [user]);
+
   const onFormLayoutChange = ({ layout }: { layout: LayoutType }) => {
     setFormLayout(layout);
   };
@@ -45,7 +55,7 @@ const Profile = () => {
                 <div className='lg:w-40 lg:h-40 w-[248px] h-[248px] text-center relative'>
                   <img
                     className='w-full h-full object-cover rounded-[318px]'
-                    src='https://images.unsplash.com/flagged/photo-1556151994-b611e5ab3675?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80'
+                    src={user?.avatar}
                     alt='avatar'
                   />
                   <div className='absolute w-11 h-11 -bottom-2 left-3/4 -translate-x-3/4 bg-primary border-2 border-solid border-white flex justify-center items-center rounded-full cursor-pointer'>
@@ -65,7 +75,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <h2 className='mt-5 text-center text-2xl font-bold leading-9 text-primary-gray-500'>
-                  Hồ Thị Kim Nguyên
+                  {user?.hoTen}
                 </h2>
               </div>
             </Col>
@@ -73,14 +83,14 @@ const Profile = () => {
               <Form.Item
                 label='Tên người dùng'
                 className='text-base font-semibold leading-6 text-primary-gray-500'
-                name='username'
+                name='hoTen'
               >
                 <Input placeholder='username' disabled />
               </Form.Item>
               <Form.Item
                 label='Số điện thoại'
                 className='text-base font-semibold leading-6 text-primary-gray-500'
-                name='phoneNumber'
+                name='soDienThoai'
               >
                 <Input placeholder='0392680723' disabled />
               </Form.Item>
@@ -96,21 +106,21 @@ const Profile = () => {
               <Form.Item
                 label='Tên đăng nhập'
                 className='text-base font-semibold leading-6 text-primary-gray-500'
-                name='loginName'
+                name='tenDangNhap'
               >
                 <Input placeholder='lehuynhaivan2000' disabled />
               </Form.Item>
               <Form.Item
                 label='Mật khẩu'
                 className='text-base font-semibold leading-6 text-primary-gray-500'
-                name='password'
+                name='matKhau'
               >
                 <Input placeholder='huynhleaivan@123' disabled className='' />
               </Form.Item>
               <Form.Item
                 label='Vai trò'
                 className='text-base font-semibold leading-6 text-primary-gray-500'
-                name='role'
+                name='vaiTro'
               >
                 <Input placeholder='Front-End Developer' disabled />
               </Form.Item>

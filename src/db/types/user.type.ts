@@ -6,4 +6,5 @@ export default interface User {
   matKhau: string;
   vaiTro: string;
   trangThai: Boolean;
+  avatar: string;
 }

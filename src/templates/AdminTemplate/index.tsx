@@ -1,6 +1,8 @@
 import { MoreOutlined } from '@ant-design/icons';
 import React, { useState } from 'react';
-import { useNavigate, NavLink, Link, LinkProps } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
+import { selectUser } from '../../features/user/userSlice';
+import { useAppSelector } from '../../app/hooks';
 import './style.scss';
 type Props = {
   children?: JSX.Element | JSX.Element[];
@@ -9,7 +11,7 @@ type Props = {
 const PrivateTemplate = (props: Props) => {
   const [isOpen, setisOpen] = useState(false);
   const [hamburger, setHamburger] = useState(false);
-
+  const user = useAppSelector(selectUser);
   return (
     <div
       className={`overflow-hidden h-screen w-full max-h-screen md:p-1 flex relative admin-template`}
@@ -322,15 +324,15 @@ const PrivateTemplate = (props: Props) => {
           <div className='imgBox h-10 w-10 ml-6 rounded-full'>
             <Link to='/dashboard/profile'>
               <img
-                src='https://images.unsplash.com/flagged/photo-1556151994-b611e5ab3675?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80'
                 className='rounded-full h-full w-full'
                 alt='useraLT'
+                src={user?.avatar}
               />
             </Link>
           </div>
           <div className='flex flex-col items-start '>
             <span className='text-xs'>Xin chào</span>
-            <span className='text-sm font-bold'>Hồ Thị Kim Nguyên</span>
+            <span className='text-sm font-bold'>{user?.hoTen}</span>
           </div>
         </div>
       </div>

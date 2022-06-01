@@ -1,13 +1,51 @@
-import React from 'react';
-import { Input, Layout } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Form, Input, Layout } from 'antd';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import {
+  LoginAsync,
+  selectUser,
+  selectUserStatus,
+} from '../../../features/user/userSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 const { Sider, Content } = Layout;
 
 const Login = () => {
-  const history = useNavigate();
-  const handleRedirect = (): void => {
-    history('/dashboard');
+  const user = useAppSelector(selectUser);
+  const status = useAppSelector(selectUserStatus);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  // Dispatch login
+  const handelLoginForm = (value: any) => {
+    dispatch(LoginAsync(value));
   };
+  // Hiển thị thông báo đăng nhập thành công hay thất bại
+  useEffect(() => {
+    if (status === 'idle' && user) {
+      Swal.fire({
+        title: 'Success!',
+        text: 'Đăng nhập thành công!',
+        icon: 'success',
+        confirmButtonText: 'Xác nhận',
+      });
+      // remove matKhau
+      localStorage.setItem('user', JSON.stringify(user));
+      const tab = JSON.parse(localStorage.getItem('user') || '[]');
+      delete tab['matKhau'];
+      localStorage.setItem('user', JSON.stringify(tab));
+
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1000);
+    } else if (status === 'failed') {
+      Swal.fire({
+        title: 'Eror!',
+        text: 'Đăng nhập thất bại!',
+        icon: 'error',
+        confirmButtonText: 'Xác nhận',
+      });
+    }
+  }, [status, user]);
   return (
     <React.Fragment>
       <Layout className='h-screen'>
@@ -22,37 +60,49 @@ const Login = () => {
                 />
               </div>
               <div className='w-full'>
-                <form className='w-full'>
+                <Form className='w-full' onFinish={handelLoginForm}>
                   <div>
-                    <label className='text-lg text-primary-gray-300 font-normal mb-1'>
-                      Tên đăng nhập *
-                    </label>
-                    <Input className='w-full h-11 rounded-lg  hover:border-primary' />
+                    <Form.Item
+                      label='Tên đăng nhập'
+                      name={'tenDangNhap'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Vui lòng nhập tên đăng nhập',
+                        },
+                      ]}
+                    >
+                      <Input className='w-full h-11 rounded-lg  hover:border-primary' />
+                    </Form.Item>
                   </div>
                   <div className='mt-4'>
-                    <label className='text-lg text-primary-gray-300 font-normal mb-1'>
-                      Mật khẩu *
-                    </label>
-                    <Input.Password className='w-full h-11 rounded-lg' />
+                    <Form.Item
+                      label='Mật khẩu'
+                      name={'matKhau'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Vui lòng nhập mật khẩu',
+                        },
+                      ]}
+                    >
+                      <Input.Password className='w-full h-11 rounded-lg' />
+                    </Form.Item>
                   </div>
                   <div className='text-center mt-[48px]'>
-                    <button
-                      type='submit'
-                      className='btn-primary'
-                      onClick={handleRedirect}
-                    >
+                    <button type='submit' className='btn-primary'>
                       Đăng nhập
                     </button>
                   </div>
                   <div className='flex justify-center items-center'>
-                    <a
-                      href='./'
+                    <Link
+                      to='/resetpass'
                       className='text-primary-red mt-2 text-base font-normal text-center hover:text-primary-red'
                     >
                       Quên mật khẩu?
-                    </a>
+                    </Link>
                   </div>
-                </form>
+                </Form>
               </div>
             </div>
           </div>

@@ -21,6 +21,7 @@ class UserServices {
     matKhau: string,
     vaiTro: string,
     trangThai: boolean,
+    avatar: string,
   ) => {
     await setDoc(doc(collection(db, 'user')), {
       tenDangNhap: tenDangNhap,
@@ -30,6 +31,7 @@ class UserServices {
       matKhau: matKhau,
       vaiTro: vaiTro,
       trangThai: trangThai,
+      avatar: avatar,
     });
   };
 
@@ -46,6 +48,7 @@ class UserServices {
         matKhau: doc.data().matKhau,
         vaiTro: doc.data().vaiTro,
         trangThai: doc.data().trangThai,
+        avatar: doc.data().avatar,
       };
       userList.push(user);
     });

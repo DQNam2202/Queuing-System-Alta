@@ -63,6 +63,7 @@ const AddUser = () => {
         matKhau,
         vaiTro,
         trangThai = value.trangThai === 'Hoạt động' ? true : false,
+        avatar = 'https://images.unsplash.com/photo-1542359649-31e03cd4d909?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
       } = value;
       // Add user
       UserServices.addUser(
@@ -73,6 +74,7 @@ const AddUser = () => {
         matKhau,
         vaiTro,
         trangThai,
+        avatar,
       );
     }
     Swal.fire({
