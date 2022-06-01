@@ -14,7 +14,7 @@ const validateMessages = {
 
 const UpdateOle = (props: Props) => {
   const [form] = Form.useForm();
-  const navigate = useNavigate();
+  const history = useNavigate();
   const [role, setRole] = useState<Role[]>([]);
   useEffect(() => {
     RoleServices.getRole().then((res: any) => {
@@ -45,7 +45,10 @@ const UpdateOle = (props: Props) => {
       icon: 'success',
       confirmButtonText: 'Ok',
     });
-    navigate('/ole-management');
+    history('/ole-management');
+  };
+  const handelBackHome = () => {
+    history('/ole-management');
   };
   return (
     <div className='content pl-[24px] pt-[29px] pr-[100px] lg:pr-2 md:mt-3 relative ole-update'>
@@ -195,7 +198,10 @@ const UpdateOle = (props: Props) => {
 
           <Form.Item>
             <div className='flex justify-center items-center mt-3 gap-x-8'>
-              <Button className='w-[147px] text-primary rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-white'>
+              <Button
+                className='w-[147px] text-primary rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-white'
+                onClick={handelBackHome}
+              >
                 Hủy bỏ
               </Button>
               <Button

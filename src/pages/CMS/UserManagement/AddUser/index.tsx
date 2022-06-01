@@ -11,7 +11,7 @@ const validateMessages = {
 };
 const AddUser = () => {
   const { Option } = Select;
-  const navigate = useNavigate();
+  const history = useNavigate();
   const [role, setRole] = useState([]);
   const [user, setUser] = useState([]);
 
@@ -39,7 +39,7 @@ const AddUser = () => {
     );
   }
   const handelBackHome = () => {
-    navigate('/user-management');
+    history('/user-management');
   };
   const handelAddData = (value: any) => {
     const index = user.findIndex(
@@ -83,7 +83,9 @@ const AddUser = () => {
       icon: 'success',
       confirmButtonText: 'Ok',
     });
-    navigate('/user-management');
+    setTimeout(() => {
+      history('/user-management');
+    }, 1000);
   };
   return (
     <div className='content pl-[24px] pt-[29px] pr-[100px] xl:pr-2 md:mt-3 relative user-add'>

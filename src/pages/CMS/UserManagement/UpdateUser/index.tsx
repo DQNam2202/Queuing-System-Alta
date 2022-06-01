@@ -15,7 +15,7 @@ const validateMessages = {
 };
 const UpdateUser = () => {
   const [form] = useForm();
-  const navigate = useNavigate();
+  const history = useNavigate();
   const { Option } = Select;
 
   function handleChange(value: any) {
@@ -67,7 +67,7 @@ const UpdateUser = () => {
     );
   }
   const handelBackHome = () => {
-    navigate('/user-management');
+    history('/user-management');
   };
   const handelUpdatedData = () => {
     let data = {
@@ -117,7 +117,9 @@ const UpdateUser = () => {
       icon: 'success',
       confirmButtonText: 'Ok',
     });
-    navigate('/user-management');
+    setTimeout(() => {
+      history('/user-management');
+    }, 1000);
   };
   return (
     <div className='content pl-[24px] pt-[29px] pr-[100px] xl:pr-2 md:mt-3 relative user-add'>

@@ -1,8 +1,9 @@
 import { MoreOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { selectUser } from '../../features/user/userSlice';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { updateUser } from '../../features/user/userSlice';
 import './style.scss';
 type Props = {
   children?: JSX.Element | JSX.Element[];
@@ -11,7 +12,23 @@ type Props = {
 const PrivateTemplate = (props: Props) => {
   const [isOpen, setisOpen] = useState(false);
   const [hamburger, setHamburger] = useState(false);
+  const dispatch = useAppDispatch();
+  const history = useNavigate();
   const user = useAppSelector(selectUser);
+
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      dispatch(updateUser(JSON.parse(localStorage.getItem('user') as string)));
+    } else {
+      history('/login');
+    }
+  }, []);
+
+  const handelLogout = () => {
+    localStorage.removeItem('user');
+    dispatch(updateUser(null as any));
+    history('/login');
+  };
   return (
     <div
       className={`overflow-hidden h-screen w-full max-h-screen md:p-1 flex relative admin-template`}
@@ -81,7 +98,10 @@ const PrivateTemplate = (props: Props) => {
                 </div>
               </li>
             </div>
-            <button className='block text-left w-full mt-auto bg-primary bg-opacity-10 '>
+            <button
+              className='block text-left w-full mt-auto bg-primary bg-opacity-10 '
+              onClick={handelLogout}
+            >
               <li className='px-[17px] py-[10px] text-sm font-medium text-primary hover:text-white hover:bg-primary'>
                 <i className='fa fa-sign-out-alt mr-[8px] hover:text-white'></i>
                 Đăng xuất
@@ -172,7 +192,10 @@ const PrivateTemplate = (props: Props) => {
                 </div>
               </li>
             </div>
-            <button className='block text-left w-full bg-primary bg-opacity-10 '>
+            <button
+              className='block text-left w-full bg-primary bg-opacity-10 '
+              onClick={handelLogout}
+            >
               <li className='px-[17px] py-[10px] text-sm font-medium text-primary hover:text-white hover:bg-primary'>
                 <i className='fa fa-sign-out-alt mr-[8px] hover:text-white'></i>
                 Đăng xuất
@@ -326,13 +349,13 @@ const PrivateTemplate = (props: Props) => {
               <img
                 className='rounded-full h-full w-full'
                 alt='useraLT'
-                src={user?.avatar}
+                src={user?.avatar === '' ? `/images/user.png` : user?.avatar}
               />
             </Link>
           </div>
           <div className='flex flex-col items-start '>
             <span className='text-xs'>Xin chào</span>
-            <span className='text-sm font-bold'>{user?.hoTen}</span>
+            <span className='text-sm font-bold'>{user && user?.hoTen}</span>
           </div>
         </div>
       </div>

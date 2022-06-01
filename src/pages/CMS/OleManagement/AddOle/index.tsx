@@ -13,7 +13,7 @@ const validateMessages = {
 };
 const AddOle = (props: Props) => {
   const [role, setRole] = React.useState([]);
-  const navigate = useNavigate();
+  const history = useNavigate();
   useEffect(() => {
     RoleServices.getRole().then((res: any) => {
       setRole(res);
@@ -25,7 +25,6 @@ const AddOle = (props: Props) => {
     );
     if (index === -1) {
       let { tenVaiTro, moTa } = value;
-      // console.log(tenVaiTro, moTa);
       RoleServices.addRole(tenVaiTro, moTa);
     }
     Swal.fire({
@@ -34,7 +33,12 @@ const AddOle = (props: Props) => {
       icon: 'success',
       confirmButtonText: 'Ok',
     });
-    navigate('/ole-management');
+    setTimeout(() => {
+      history('/ole-management');
+    }, 1000);
+  };
+  const handelBackHome = () => {
+    history('/ole-management');
   };
   return (
     <div className='content pl-[24px] pt-[29px] pr-[100px] lg:pr-2 md:mt-3 relative ole-add'>
@@ -171,7 +175,10 @@ const AddOle = (props: Props) => {
 
           <Form.Item>
             <div className='flex justify-center items-center mt-3 gap-x-8'>
-              <Button className='w-[147px] text-primary rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-white '>
+              <Button
+                className='w-[147px] text-primary rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-white'
+                onClick={handelBackHome}
+              >
                 Hủy bỏ
               </Button>
               <Button

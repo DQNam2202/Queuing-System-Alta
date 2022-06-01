@@ -14,7 +14,7 @@ const Login = () => {
   const user = useAppSelector(selectUser);
   const status = useAppSelector(selectUserStatus);
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const history = useNavigate();
   // Dispatch login
   const handelLoginForm = (value: any) => {
     dispatch(LoginAsync(value));
@@ -35,7 +35,7 @@ const Login = () => {
       localStorage.setItem('user', JSON.stringify(tab));
 
       setTimeout(() => {
-        navigate('/dashboard');
+        history('/dashboard');
       }, 1000);
     } else if (status === 'failed') {
       Swal.fire({

@@ -70,6 +70,9 @@ const UserManager = (props: Props) => {
   const [user, setUser] = useState([]);
   const [role, setRole] = useState<Role[]>([]);
   const searchRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { Option } = Select;
+
+  // Pagination table
   const [table, setTable] = useState({
     data: [],
     pagination: {
@@ -78,7 +81,6 @@ const UserManager = (props: Props) => {
     },
     loading: false,
   });
-  const { Option } = Select;
 
   function handelChangeSelect(value: any) {
     if (value === 'all') {
@@ -143,19 +145,22 @@ const UserManager = (props: Props) => {
     });
   }, []);
 
+  // Find user by name, tenDangNhap
   const handelSearch = (e: React.FormEvent<HTMLInputElement>) => {
     let value = e.currentTarget.value;
     if (searchRef) {
       clearInterval(searchRef.current as any);
     }
-
     searchRef.current = setTimeout(() => {
-      let temp = user.filter((item: any) =>
-        removeAccents(item.hoTen.toLocaleLowerCase()).includes(
-          removeAccents(value.toLocaleLowerCase()),
-        ),
+      let temp = user.filter(
+        (item: any) =>
+          removeAccents(item.hoTen.toLocaleLowerCase()).includes(
+            removeAccents(value.toLocaleLowerCase()),
+          ) ||
+          removeAccents(item.tenDangNhap.toLocaleLowerCase()).includes(
+            removeAccents(value.toLocaleLowerCase()),
+          ),
       );
-
       setTable({ ...table, data: temp as any });
       clearInterval(searchRef.current as any);
     }, 700);
