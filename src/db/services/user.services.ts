@@ -4,6 +4,8 @@ import {
   setDoc,
   getDocs,
   collection,
+  query,
+  where,
 } from 'firebase/firestore';
 import firebase from '../firebase';
 import IUser from '../types/role.type';
@@ -70,6 +72,23 @@ class UserServices {
       vaiTro: vaiTro,
       trangThai: trangThai,
     });
+  };
+
+  login = async (tenDangNhap: string, matKhau: string) => {
+    const q = query(
+      collection(db, 'user'),
+      where('tenDangNhap', '==', tenDangNhap),
+      where('matKhau', '==', matKhau),
+    );
+    const querySnapshot = await getDocs(q);
+    let temp = null;
+    querySnapshot.forEach(doc => {
+      temp = {
+        ...doc.data(),
+        id: doc.id,
+      };
+    });
+    return temp;
   };
 }
 export default new UserServices();

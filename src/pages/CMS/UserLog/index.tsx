@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { DatePicker, Input } from 'antd';
 import { Table } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
+import SystemLogServices from '../../../db/services/log_system.type';
+import moment from 'moment-timezone';
 import './style.scss';
+// import moment from 'moment';
 type Props = {};
 
 const columns = [
@@ -13,7 +16,17 @@ const columns = [
   },
   {
     title: 'Thời gian tác động',
-    dataIndex: 'thoiGian',
+    dataIndex: 'actionTime',
+    render: (actionTime: any) => {
+      console.log(typeof actionTime, actionTime);
+      return (
+        <span>
+          {moment(actionTime.toDate())
+            .tz('Asia/Ho_Chi_Minh')
+            .format('DD/MM/YYYY HH:mm:ss')}
+        </span>
+      );
+    },
     width: '20%',
   },
   {
@@ -23,11 +36,12 @@ const columns = [
   },
   {
     title: 'Thao tác thực hiện',
-    dataIndex: 'thaoTac',
+    dataIndex: 'action',
     width: '35%',
   },
 ];
 const UserLog = (props: Props) => {
+  const [log, setLog] = useState([]);
   const [table, setTable] = useState({
     data: [],
     pagination: {
@@ -39,21 +53,19 @@ const UserLog = (props: Props) => {
   const handleDateChange = (date: any, dateString: String) => {
     console.log(date, dateString);
   };
-  useEffect(() => {
-    //Data demo
-    const data = [];
-    for (let index = 0; index < 50; index++) {
-      let temp = {
-        key: index,
-        tenDangNhap: 'tuyetnguyen@12',
-        thoiGian: '01/12/2021 15:12:17',
-        ip: '192.168.3.1',
-        thaoTac: 'Cập nhật thông tin dịch vụ DV_01',
-      };
-      data.push(temp);
-    }
 
-    setTable({ ...table, data: data as any });
+  useEffect(() => {
+    SystemLogServices.getSystemLog().then((res: any) => {
+      res = res.map((item: any, index: any) => ({
+        ...item,
+        key: index,
+      }));
+      setLog(res);
+      setTable({
+        ...table,
+        data: res,
+      });
+    });
   }, []);
 
   const handlePanigationChange = (current: any) => {

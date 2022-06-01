@@ -11,7 +11,7 @@ import User from '../../../../db/types/user.type';
 import Swal from 'sweetalert2';
 
 const validateMessages = {
-  required: '${label} is required!',
+  required: '${label} is required',
 };
 const UpdateUser = () => {
   const [form] = useForm();
@@ -129,9 +129,6 @@ const UpdateUser = () => {
       </div>
       <h2 className='text-primary-500 text-2xl font-bold'>Quản lý tài khoản</h2>
       <div className='xl:overflow-y-scroll xl:max-h-[80vh] py-2 px-6 rounded-2xl shadow-[2px_2px_8px_rgba(232, 239, 244, 0.8)]'>
-        {/* <h3 className='text-xl font-bold leading-[30px] text-primary'>
-          Thông tin thiết bị
-        </h3> */}
         <Form
           form={form}
           className=''

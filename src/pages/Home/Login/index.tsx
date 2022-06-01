@@ -1,13 +1,13 @@
 import React from 'react';
-import {Input, Layout } from 'antd';
+import { Input, Layout } from 'antd';
 import { useNavigate } from 'react-router-dom';
 const { Sider, Content } = Layout;
 
 const Login = () => {
-  const history = useNavigate()
-  const handleRedirect = ():void=>{
-    history('/dashboard')
-  }
+  const history = useNavigate();
+  const handleRedirect = (): void => {
+    history('/dashboard');
+  };
   return (
     <React.Fragment>
       <Layout className='h-screen'>
@@ -36,7 +36,11 @@ const Login = () => {
                     <Input.Password className='w-full h-11 rounded-lg' />
                   </div>
                   <div className='text-center mt-[48px]'>
-                    <button type='submit' className='btn-primary' onClick={handleRedirect}>
+                    <button
+                      type='submit'
+                      className='btn-primary'
+                      onClick={handleRedirect}
+                    >
                       Đăng nhập
                     </button>
                   </div>
