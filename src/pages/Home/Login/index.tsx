@@ -72,7 +72,10 @@ const Login = () => {
                         },
                       ]}
                     >
-                      <Input className='w-full h-11 rounded-lg  hover:border-primary' />
+                      <Input
+                        className='w-full h-11 rounded-lg  hover:border-primary'
+                        autoComplete='off'
+                      />
                     </Form.Item>
                   </div>
                   <div className='mt-4'>
@@ -86,7 +89,10 @@ const Login = () => {
                         },
                       ]}
                     >
-                      <Input.Password className='w-full h-11 rounded-lg' />
+                      <Input.Password
+                        className='w-full h-11 rounded-lg'
+                        autoComplete='off'
+                      />
                     </Form.Item>
                   </div>
                   <div className='text-center mt-[48px]'>

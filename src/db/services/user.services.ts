@@ -8,6 +8,7 @@ import {
   where,
 } from 'firebase/firestore';
 import firebase from '../firebase';
+
 import IUser from '../types/role.type';
 
 const db = firebase;

@@ -349,7 +349,7 @@ const PrivateTemplate = (props: Props) => {
               <img
                 className='rounded-full h-full w-full'
                 alt='useraLT'
-                src={user?.avatar === '' ? `/images/user.png` : user?.avatar}
+                src={user?.avatar === '' ? `/images/avatar.png` : user?.avatar}
               />
             </Link>
           </div>
