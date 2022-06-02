@@ -1,0 +1,21 @@
+.reset-pass {
+  .ant-btn {
+    width: 162px;
+    height: 40px;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+  .btn-cancel {
+    &:hover {
+      color: #ff9138;
+    }
+  }
+  .ant-input:focus,
+  .ant-input-focused {
+    border-color: #ff9138 !important;
+    --tw-ring-color: #ff9138 !important;
+    outline: none;
+  }
+}

@@ -1,31 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Form, Input, Upload, Button } from 'antd';
+import { Row, Col, Form, Input, Button } from 'antd';
 import { CameraOutlined } from '@ant-design/icons';
-import { selectUser } from '../../../features/user/userSlice';
-import { useAppSelector } from '../../../app/hooks';
+import { selectUser, updateUser } from '../../../features/user/userSlice';
+import { useAppSelector, useAppDispatch } from '../../../app/hooks';
 import RoleServices from '../../../db/services/role.services';
 import { storage } from '../../../db/firebase';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import firseabse from '../../../db/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
-import Swal from 'sweetalert2';
-import { v4 } from 'uuid';
 import './style.scss';
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 const Profile = () => {
   const [form] = Form.useForm();
   const db = firseabse;
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const [formLayout, setFormLayout] = useState<LayoutType>('vertical');
 
-  const normFile = (e: any) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e && e.fileList;
-  };
   useEffect(() => {
     RoleServices.getRole().then((res: any) => {
       form.setFieldsValue({
@@ -40,12 +32,14 @@ const Profile = () => {
       });
     });
   }, [user]);
+  console.log(user);
 
   const onFormLayoutChange = ({ layout }: { layout: LayoutType }) => {
     setFormLayout(layout);
   };
   const [singleImage, setSingleImage] = useState('') as any;
 
+  // get image
   const handleImage = (e: any) => {
     e.preventDefault();
     console.log(e.target.files[0]);
@@ -55,6 +49,8 @@ const Profile = () => {
       setSingleImage(pickedFile);
     }
   };
+
+  // Upload images
   const metadata = {
     contentType: 'image/jpeg',
   };
@@ -80,6 +76,12 @@ const Profile = () => {
             await updateDoc(doc(db, 'user', user.id), {
               avatar: downloadURL,
             });
+            dispatch(
+              updateUser({
+                ...user,
+                avatar: downloadURL,
+              }),
+            );
           }
         });
       },
@@ -173,7 +175,7 @@ const Profile = () => {
                 className='text-base font-semibold leading-6 text-primary-gray-500'
                 name='matKhau'
               >
-                <Input placeholder='huynhleaivan@123' disabled className='' />
+                <Input placeholder='huynhleaivan@123' disabled />
               </Form.Item>
               <Form.Item
                 label='Vai trò'

@@ -181,7 +181,7 @@ const UserManager = (props: Props) => {
       </h2>
       <div className='controls flex justify-between md:flex-col md:items-center md:mb-3'>
         <div className='flex gap-x-2'>
-          <div className='item flex flex-col text-sm md:items-center'>
+          <div className='item flex flex-col text-sm md:items-center mt-2'>
             <span className='font-semibold mb-1 text-primary-gray-500'>
               Tên vai trò
             </span>
@@ -206,7 +206,7 @@ const UserManager = (props: Props) => {
             </Select>
           </div>
         </div>
-        <div className='item flex flex-col text-base md:items-center mt-2'>
+        <div className='item flex flex-col text-sm md:items-center mt-2'>
           <span className='font-semibold mb-1 text-primary-gray-500'>
             Từ khoá
           </span>

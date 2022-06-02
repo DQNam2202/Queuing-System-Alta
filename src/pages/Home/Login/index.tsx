@@ -2,12 +2,14 @@ import React, { useEffect } from 'react';
 import { Form, Input, Layout } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+
 import {
   LoginAsync,
   selectUser,
   selectUserStatus,
 } from '../../../features/user/userSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import './style.scss';
 const { Sider, Content } = Layout;
 
 const Login = () => {
@@ -23,33 +25,35 @@ const Login = () => {
   useEffect(() => {
     if (status === 'idle' && user) {
       Swal.fire({
-        title: 'Success!',
-        text: 'Đăng nhập thành công!',
         icon: 'success',
-        confirmButtonText: 'Xác nhận',
+        title: 'Đăng nhập thành công',
+        showConfirmButton: false,
+        timer: 1000,
       });
-      // remove matKhau
+
+      //remove matKhau
       localStorage.setItem('user', JSON.stringify(user));
-      const tab = JSON.parse(localStorage.getItem('user') || '[]');
-      delete tab['matKhau'];
-      localStorage.setItem('user', JSON.stringify(tab));
+      // const tab = JSON.parse(localStorage.getItem('user') || '[]');
+      // delete tab['matKhau'];
+      // localStorage.setItem('user', JSON.stringify(tab));
 
       setTimeout(() => {
         history('/dashboard');
-      }, 1000);
+      }, 1200);
     } else if (status === 'failed') {
       Swal.fire({
         title: 'Eror!',
         text: 'Đăng nhập thất bại!',
         icon: 'error',
-        confirmButtonText: 'Xác nhận',
+        confirmButtonText: 'false',
+        timer: 1500,
       });
     }
   }, [status, user]);
   return (
     <React.Fragment>
       <Layout className='h-screen'>
-        <Content className='w-[592px]'>
+        <Content className='w-[592px] login'>
           <div className='flex justify-center items-center w-full bg-primary-light-gray'>
             <div className='flex flex-col justify-center items-center w-[400px]'>
               <div className='w-[170px] h-[136px] mt-[60px] mb-[60px]'>
@@ -73,7 +77,7 @@ const Login = () => {
                       ]}
                     >
                       <Input
-                        className='w-full h-11 rounded-lg  hover:border-primary'
+                        className='w-full h-11 rounded-lg  hover:border-primary ant-login'
                         autoComplete='off'
                       />
                     </Form.Item>

@@ -14,4 +14,40 @@
     background: #ffc89b;
     border-radius: 10px;
   }
+  // Add class btn-cancel
+  .ant-btn {
+    width: 162px;
+    height: 40px;
+    &:hover {
+      color: #fff;
+      background: #ff9138;
+      border: 1px solid #ff9138;
+    }
+    &.btn-cancel {
+      &:hover {
+        background: #fff;
+        color: #ff9138;
+        border: 1px solid #ff9138;
+      }
+    }
+  }
+  // Add class ant-ole by input field
+  .ant-form-item-control-input-content {
+    .ant-input {
+      &.ant-ole {
+        border: 1px solid #dcdcdc !important;
+        &:hover {
+          border-color: #ff9138 !important;
+        }
+      }
+    }
+    .ant-input:focus,
+    .ant-input:hover,
+    .ant-input-focused {
+      border-color: #ff9138 !important;
+      --tw-ring-color: #ff9138 !important;
+      outline: none;
+      box-shadow: 0 0 0 0 rgb(255, 255, 255) !important;
+    }
+  }
 }

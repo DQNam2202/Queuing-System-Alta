@@ -82,7 +82,7 @@ const UpdateOle = (props: Props) => {
                 ]}
               >
                 <Input
-                  className='w-full h-11 rounded-lg hover:border-primary'
+                  className='w-full h-11 rounded-lg hover:border-primary ant-ole'
                   placeholder='Nhập tên vai trò'
                 />
               </Form.Item>
@@ -199,7 +199,7 @@ const UpdateOle = (props: Props) => {
           <Form.Item>
             <div className='flex justify-center items-center mt-3 gap-x-8'>
               <Button
-                className='w-[147px] text-primary rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-white'
+                className='w-[147px] text-primary rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-white btn-cancel'
                 onClick={handelBackHome}
               >
                 Hủy bỏ
