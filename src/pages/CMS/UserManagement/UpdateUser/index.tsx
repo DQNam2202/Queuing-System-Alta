@@ -150,7 +150,7 @@ const UpdateUser = () => {
                 ]}
               >
                 <Input
-                  className='w-full h-11 rounded-lg hover:border-primary'
+                  className='w-full h-11 rounded-lg hover:border-primary ant-user'
                   placeholder='Nhập họ tên'
                   autoComplete='off'
                 />
@@ -168,7 +168,7 @@ const UpdateUser = () => {
                 ]}
               >
                 <Input
-                  className='w-full h-11 rounded-lg hover:border-primary'
+                  className='w-full h-11 rounded-lg hover:border-primary ant-user'
                   placeholder='Nhập tên đăng nhập'
                   autoComplete='off'
                 />
@@ -190,7 +190,7 @@ const UpdateUser = () => {
                 ]}
               >
                 <Input
-                  className='w-full h-11 rounded-lg hover:border-primary'
+                  className='w-full h-11 rounded-lg hover:border-primary ant-user'
                   placeholder='Nhập số điện thoại'
                   autoComplete='off'
                 />
@@ -208,7 +208,7 @@ const UpdateUser = () => {
                 ]}
               >
                 <Input.Password
-                  className='w-full h-11 rounded-lg hover:border-primary'
+                  className='w-full h-11 rounded-lg hover:border-primary ant-user'
                   placeholder='Nhập mật khẩu'
                   autoComplete='off'
                 />
@@ -230,7 +230,7 @@ const UpdateUser = () => {
                 ]}
               >
                 <Input
-                  className='w-full h-11 rounded-lg hover:border-primary'
+                  className='w-full h-11 rounded-lg hover:border-primary ant-user'
                   placeholder='Nhập email'
                   autoComplete='off'
                 />
@@ -248,7 +248,7 @@ const UpdateUser = () => {
                 ]}
               >
                 <Input.Password
-                  className='w-full h-11 rounded-lg hover:border-primary'
+                  className='w-full h-11 rounded-lg hover:border-primary ant-user'
                   placeholder='Nhập lại mật khẩu'
                   autoComplete='off'
                 />

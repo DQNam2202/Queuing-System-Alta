@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { DatePicker, Input } from 'antd';
 import { Table } from 'antd';
 import { CaretRightOutlined } from '@ant-design/icons';
-import SystemLogServices from '../../../db/services/log_system.type';
+import SystemLogServices from '../../../db/services/log_system.services';
 import moment from 'moment-timezone';
 import Log from '../../../db/types/log_system.type';
 import './style.scss';
