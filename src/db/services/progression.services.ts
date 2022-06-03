@@ -1,6 +1,6 @@
 import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
 import firebase from '../firebase';
-import IProgression from '../types/progession.type';
+import IProgression from '../types/progression.type';
 
 const db = firebase;
 
