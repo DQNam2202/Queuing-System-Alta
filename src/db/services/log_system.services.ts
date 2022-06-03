@@ -6,23 +6,13 @@ import {
   collection,
 } from 'firebase/firestore';
 import firebase from '../firebase';
-import ILog from '../types/role.type';
+import ILog from '../types/log_system.type';
 
 const db = firebase;
 
 class SystemLogServices {
-  addLog = async (
-    tenDangNhap: string,
-    actionTime: Date,
-    ip: string,
-    action: string,
-  ) => {
-    await setDoc(doc(collection(db, 'activity-log')), {
-      tenDangNhap: tenDangNhap,
-      actionTime: actionTime,
-      ip: ip,
-      action: action,
-    });
+  addLog = async (log: ILog) => {
+    await setDoc(doc(collection(db, 'activity-log')), log);
   };
 
   getSystemLog = async () => {
@@ -30,6 +20,7 @@ class SystemLogServices {
     const querySnapshot = await getDocs(collection(db, 'activity-log'));
     querySnapshot.forEach(doc => {
       let activity: any = {
+        id: doc.id,
         tenDangNhap: doc.data().tenDangNhap,
         actionTime: doc.data().actionTime,
         ip: doc.data().ip,

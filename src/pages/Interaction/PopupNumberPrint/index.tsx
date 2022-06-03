@@ -1,15 +1,15 @@
 import React, { MouseEventHandler, useState } from 'react';
 import { Modal, Button } from 'antd';
 import './style.scss';
+import moment from 'moment-timezone';
 type Props = {
-  showModal: MouseEventHandler;
   handleOk: MouseEventHandler;
   handleCancel: MouseEventHandler;
   isModalVisible: boolean;
+  result: any
 };
 const PopupNumberPrint = (props: Props) => {
-  const { showModal, handleOk, handleCancel, isModalVisible } = props;
-
+  const { handleOk, handleCancel, isModalVisible,result } = props;
   return (
     <div className='flex justify-center items-center w-full min-h-screen '>
       <Modal
@@ -25,10 +25,10 @@ const PopupNumberPrint = (props: Props) => {
             Số thứ tự được cấp
           </p>
           <h2 className='text-[56px] font-extrabold leading-[60px] text-primary-500 mb-6'>
-            2001201
+            {result.stt}
           </h2>
           <p className='text-lg font-normal leading-7 text-primary-gray-500'>
-            DV: Khám răng hàm mặt{' '}
+            DV: {result.tenDichVu}
             <strong className='text-lg font-bold leading-7 text-primary-gray-500'>
               (tại quầy số 1)
             </strong>
@@ -37,11 +37,11 @@ const PopupNumberPrint = (props: Props) => {
         <div className='absolute bottom-0 left-0 bg-primary-400 w-full h-28 flex flex-col justify-center items-center rounded-bl-3xl rounded-br-3xl'>
           <div className='flex items-center justify-center mt-4 mb-3 text-white text-[22px] leading-8 font-bold'>
             <span className='mr-2'>Thời gian cấp:</span>
-            <span>09:30 03/05/2022</span>
+            <span>{moment(result.thoiGianCap).tz("Asia/Ho_Chi_Minh").format('HH:mm - DD/MM/YYYY')}</span>
           </div>
           <div className='flex items-center justify-center text-white text-[22px] leading-8 font-bold mb-4'>
             <span className='mr-2'>Hạn sử dụng:</span>
-            <span>09:30 03/05/2022</span>
+            <span>{moment(result.hanSuDung).tz("Asia/Ho_Chi_Minh").format('HH:mm - DD/MM/YYYY')}</span>
           </div>
         </div>
       </Modal>

@@ -1,7 +1,7 @@
-export default interface Log_System {
-  id: string;
+export default interface LogSystem {
+  id?: string;
   tenDangNhap: string;
   actionTime: Date;
-  ip: string;
-  action: string;
+  ip: String;
+  action: String;
 }

@@ -1,7 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import ServiceServices from '../../../../db/services/service.services';
+import ProgressionServices from '../../../../db/services/progression.services';
+import moment from 'moment-timezone';
+
 const DetailProgression = () => {
+  const { id } = useParams();
+  const history = useNavigate();
+  const [progression, setProgression] = useState<any>();
+
+  useEffect(() => {
+    (async () => {
+      let data = await ServiceServices.getService();
+      let progressions = await ProgressionServices.getProgression();
+
+      let index = progressions.findIndex(item => item.id === id);
+      if (index === -1) {
+        history('/progression?-management');
+      }
+      let temp = data.find(ser => ser.id === progressions[index].dichVu);
+      setProgression({
+        ...progressions[index],
+        tenDichVu: temp?.tenDichVu,
+      });
+    })();
+  }, []);
   return (
     <div className='content pl-[24px] pt-[29px] pr-[100px] md:mt-3 relative'>
       <div className='path text-gray-600 font-bold text-lg mb-11'>
@@ -17,103 +41,122 @@ const DetailProgression = () => {
           <Col span={12} xs={24} xl={12}>
             <div className='flex items-center mb-4'>
               <span className='mr-4 font-semibold text-base leading-6 text-primary-gray-500 w-[100px]'>
-              Họ tên:
+                Họ tên:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400'>
-              Nguyễn Thị Dung
+                {progression?.hoTen}
               </p>
             </div>
           </Col>
           <Col span={12} xs={24} xl={12}>
             <div className='flex items-center mb-4'>
               <span className='mr-4 font-semibold text-base leading-6 text-primary-gray-500 w-[100px]'>
-              Nguồn cấp:
+                Nguồn cấp:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400'>
-              Kiosk
+                {progression?.nguonCap}
               </p>
             </div>
           </Col>
           <Col span={12} xs={24} xl={12}>
             <div className='flex items-center mb-4'>
               <span className='mr-4 font-semibold text-base leading-6 text-primary-gray-500 w-[100px]'>
-              Tên dịch vụ:
+                Tên dịch vụ:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400'>
-              Khám tim mạch
+                {progression?.tenDichVu}
               </p>
             </div>
           </Col>
           <Col span={12} xs={24} xl={12}>
             <div className='flex items-center mb-4'>
               <span className='mr-4 font-semibold text-base leading-6 text-primary-gray-500 w-[100px]'>
-              Trạng thái:
+                Trạng thái:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400 flex items-center'>
-                <span className='block h-2 w-2 bg-primary-blue mr-2 rounded-full'></span>Trạng thái
+                {progression?.trangThai === 'used' ? (
+                  <span className='flex items-center gap-x-2'>
+                    <span className='block h-1 w-1 bg-primary-gray-300 rounded-full shrink-0'></span>
+                    Đã sử dụng
+                  </span>
+                ) : progression?.trangThai === 'pending' ? (
+                  <span className='flex items-center gap-x-2'>
+                    <span className='block h-1 w-1 bg-primary-blue rounded-full shrink-0'></span>
+                    Đang chờ
+                  </span>
+                ) : (
+                  <span className='flex items-center gap-x-2'>
+                    <span className='block h-1 w-1 bg-primary-red rounded-full shrink-0'></span>
+                    Bỏ qua
+                  </span>
+                )}
               </p>
             </div>
           </Col>
           <Col span={12} xs={24} xl={12}>
             <div className='flex items-center mb-4'>
               <span className='mr-4 font-semibold text-base leading-6 text-primary-gray-500 w-[100px]'>
-              Số thứ tự:
+                Số thứ tự:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400'>
-              2001201
+                {progression?.stt}
               </p>
             </div>
           </Col>
           <Col span={12} xs={24} xl={12}>
             <div className='flex items-center mb-4'>
               <span className='mr-4 font-semibold text-base leading-6 text-primary-gray-500 w-[100px]'>
-              Số điện thoại:
+                Số điện thoại:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400'>
-              0948523623
+                {progression?.soDienThoai}
               </p>
             </div>
           </Col>
           <Col span={12} xs={24} xl={12}>
             <div className='mb-4'>
               <span className='mr-4 font-semibold text-base leading-6 text-primary-gray-500 w-[100px]'>
-              Thời gian cấp:
+                Thời gian cấp:
               </span>
               <span className='font-normal text-base leading-6 text-primary-gray-400 mt-2'>
-                14:35 - 07/11/2021
+                {moment(progression?.thoiGianCap.toDate())
+                  .tz('Asia/Ho_Chi_Minh')
+                  .format('HH:mm - DD/MM/YYYY')}
               </span>
             </div>
           </Col>
           <Col span={12} xs={24} xl={12}>
             <div className=''>
               <span className='mr-4 font-semibold text-base leading-6 text-primary-gray-500 w-[100px]'>
-              Địa chỉ Email:
+                Địa chỉ Email:
               </span>
               <span className='font-normal text-base leading-6 text-primary-gray-400 mt-2'>
-              nguyendung@gmail.com
+                {progression?.email}
               </span>
             </div>
           </Col>
           <Col span={12} xs={24} xl={12}>
             <div className=''>
               <span className='mr-5 font-semibold text-base leading-6 text-primary-gray-500 w-[100px]'>
-              Hạn sử dụng:
+                Hạn sử dụng:
               </span>
               <span className='font-normal text-base leading-6 text-primary-gray-400 mt-2'>
-              18:00 - 07/11/2021
+                {moment(progression?.hanSuDung.toDate())
+                  .tz('Asia/Ho_Chi_Minh')
+                  .format('HH:mm - DD/MM/YYYY')}
               </span>
             </div>
           </Col>
         </Row>
         {/* Updated Device button */}
         <Link
-        to="/progression-management/"
-        className="absolute -right-28 top-0 flex flex-col h-[94px] w-20 justify-center items-center text-center bg-primary-50 text-primary font-bold cursor-pointer hover:text-primary"
+          to='/progression-management/'
+          className='absolute -right-28 top-0 flex flex-col h-[94px] w-20 justify-center items-center text-center bg-primary-50 text-primary font-bold cursor-pointer hover:text-primary'
         >
-        <div className="w-5 h-5">
-            <img src="/images/svgs/back-square.svg" alt="" />
-        </div>
-        <span className="text-sm">Quay lại</span>
+          <div className='w-5 h-5'>
+            <img src='/images/svgs/back-square.svg' alt='' />
+          </div>
+          <span className='text-sm'>Quay lại</span>
         </Link>
       </div>
     </div>
