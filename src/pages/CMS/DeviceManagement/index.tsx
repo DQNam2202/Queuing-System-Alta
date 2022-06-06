@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Input, Select } from 'antd';
 import { Table } from 'antd';
 import { CaretDownOutlined } from '@ant-design/icons';
+import Swal from 'sweetalert2';
 import './style.scss';
 import { Link } from 'react-router-dom';
+import Service from '../../../db/types/service.type';
+import DeviceServices from '../../../db/services/device.services';
+import ServiceServices from '../../../db/services/service.services';
+import IDevice from '../../../db/types/device.type';
 type Props = {};
 
 const columns = [
@@ -24,7 +29,7 @@ const columns = [
   },
   {
     title: 'Trạng thái hoạt động',
-    dataIndex: 'trangThai',
+    dataIndex: 'trangThaiHoatDong',
     width: '18%',
     render: (trangThai: any) =>
       trangThai ? (
@@ -41,7 +46,7 @@ const columns = [
   },
   {
     title: 'Trạng thái kết nối',
-    dataIndex: 'ketNoi',
+    dataIndex: 'trangThaiKetNoi',
     width: '15%',
     render: (ketNoi: any) =>
       ketNoi ? (
@@ -78,7 +83,7 @@ const columns = [
     render: (item: any, record: any) => (
       <Link
         className='text-blue-500 underline'
-        to={`/devices-management/detail/${record.maThietBi}`}
+        to={`/devices-management/detail/${record.id}`}
       >
         Chi tiết
       </Link>
@@ -90,7 +95,7 @@ const columns = [
     render: (item: any, record: any) => (
       <Link
         className='text-blue-500 underline'
-        to={`/devices-management/update/${record.maThietBi}`}
+        to={`/devices-management/update/${record.id}`}
       >
         Cập nhật
       </Link>
@@ -99,6 +104,15 @@ const columns = [
 ];
 
 const DeviceManager = (props: Props) => {
+  const [device, setDevice] = useState<IDevice[]>([]);
+  const [key, setKey] = useState('');
+  const searchRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // state selected
+  const [activity, setActivity] = useState('all');
+  const [connect, setConnect] = useState('all');
+  const { Option } = Select;
+
   const [table, setTable] = useState({
     data: [],
     pagination: {
@@ -107,41 +121,232 @@ const DeviceManager = (props: Props) => {
     },
     loading: false,
   });
-  const { Option } = Select;
+
   function handleChange(value: any) {
     console.log(`Selected: ${value}`);
   }
 
   useEffect(() => {
-    //Data demo
-    const data = [];
-    for (let index = 0; index < 50; index++) {
-      let temp = {
-        key: index,
-        maThietBi: `KIO_0${index}`,
-        tenThietBi: `Kiosk ${index}`,
-        ip: '192.168.1.10',
-        trangThai: index % 2 === 0 ? true : false,
-        ketNoi: index % 2 === 0 ? true : false,
-        dichVuSuDung: [
-          'Khám tim mạch',
-          'Khám Sản - Phụ khoa',
-          'Khám răng hàm mặt',
-          'Khám tai mũi họng',
-          'Khám hô hấp',
-          'Khám tổng quát',
-        ],
-      };
-      data.push(temp);
-    }
+    (async () => {
+      let data = await DeviceServices.getDevice();
+      let services = await ServiceServices.getService();
 
-    setTable({ ...table, data: data as any });
+      data = data.map((item: any) => {
+        let serviceList = item.dichVuSuDung.map((temp: any) => {
+          let service = services.find(ser => ser.maDichVu === temp);
+          return service?.tenDichVu;
+        });
+        return {
+          ...item,
+          key: item.id,
+          dichVuSuDung: serviceList as any,
+        };
+      });
+      setDevice(data);
+      setTable({ ...table, data: data as any });
+    })();
   }, []);
 
   const handlePanigationChange = (current: any) => {
     setTable({ ...table, pagination: { ...table.pagination, current } });
   };
+  // Format VietNameses
+  const removeAccents = (str: string) => {
+    var AccentsMap = [
+      'aàảãáạăằẳẵắặâầẩẫấậ',
+      'AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬ',
+      'dđ',
+      'DĐ',
+      'eèẻẽéẹêềểễếệ',
+      'EÈẺẼÉẸÊỀỂỄẾỆ',
+      'iìỉĩíị',
+      'IÌỈĨÍỊ',
+      'oòỏõóọôồổỗốộơờởỡớợ',
+      'OÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢ',
+      'uùủũúụưừửữứự',
+      'UÙỦŨÚỤƯỪỬỮỨỰ',
+      'yỳỷỹýỵ',
+      'YỲỶỸÝỴ',
+    ];
+    for (var i = 0; i < AccentsMap.length; i++) {
+      var re = new RegExp('[' + AccentsMap[i].substr(1) + ']', 'g');
+      var char = AccentsMap[i][0];
+      str = str.replace(re, char);
+    }
+    return str;
+  };
+  // Debounce search
+  const handleInputSearch = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    setKey(value);
+    if (searchRef.current) {
+      clearTimeout(searchRef.current as any);
+    }
+    searchRef.current = setTimeout(() => {
+      let temp = device.filter(
+        (item: any) =>
+          removeAccents(item.maThietBi.toLocaleLowerCase()).includes(
+            removeAccents(value.toLocaleLowerCase()),
+          ) ||
+          removeAccents(item.ip.toLocaleLowerCase()).includes(
+            removeAccents(value.toLocaleLowerCase()),
+          ) ||
+          removeAccents(item.tenThietBi.toLocaleLowerCase()).includes(
+            removeAccents(value.toLocaleLowerCase()),
+          ),
+      );
 
+      setTable({ ...table, data: temp as any });
+      clearInterval(searchRef.current as any);
+    }, 700);
+  };
+  // Change selected input trangThaiHoatDong. trangThaiKetNoi
+  const handleActivityChange = (value: any) => {
+    let statusConnect =
+      connect === 'all' ? '' : connect === 'online' ? true : false;
+    // Trạng thái hoạt động khi click vào ô trạng thái hoạt động
+    let active = value === 'online' ? true : false;
+    setActivity(value);
+    if (statusConnect === '') {
+      if (value === 'all') {
+        let temp = device.filter(
+          (item: any) =>
+            removeAccents(item.maThietBi.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ) ||
+            removeAccents(item.tenThietBi.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ) ||
+            removeAccents(item.ip.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ),
+        );
+        setTable({ ...table, data: temp as any });
+      } else {
+        let temp = device.filter(
+          (item: any) =>
+            (removeAccents(item.maThietBi.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ) ||
+              removeAccents(item.tenThietBi.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              ) ||
+              removeAccents(item.ip.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              )) &&
+            item.trangThaiHoatDong === active,
+        );
+        setTable({ ...table, data: temp as any });
+      }
+      return;
+    } else {
+      if (value === 'all') {
+        let temp = device.filter(
+          (item: any) =>
+            (removeAccents(item.maThietBi.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ) ||
+              removeAccents(item.tenThietBi.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              ) ||
+              removeAccents(item.ip.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              )) &&
+            item.trangThaiKetNoi === statusConnect,
+        );
+        setTable({ ...table, data: temp as any });
+      } else {
+        let temp = device.filter(
+          (item: any) =>
+            (removeAccents(item.maThietBi.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ) ||
+              removeAccents(item.tenThietBi.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              ) ||
+              removeAccents(item.ip.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              )) &&
+            item.trangThaiKetNoi === statusConnect &&
+            item.trangThaiHoatDong === active,
+        );
+        setTable({ ...table, data: temp as any });
+      }
+    }
+  };
+  const handleConnectChange = (value: any) => {
+    let statusActivity =
+      activity === 'all' ? '' : activity === 'online' ? true : false;
+    let active = value === 'online' ? true : false;
+
+    setConnect(value);
+    if (statusActivity === '') {
+      if (value === 'all') {
+        let temp = device.filter(
+          (item: any) =>
+            removeAccents(item.maThietBi.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ) ||
+            removeAccents(item.tenThietBi.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ) ||
+            removeAccents(item.ip.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ),
+        );
+        setTable({ ...table, data: temp as any });
+      } else {
+        let temp = device.filter(
+          item =>
+            (removeAccents(item.maThietBi.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ) ||
+              removeAccents(item.tenThietBi.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              ) ||
+              removeAccents(item.ip.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              )) &&
+            item.trangThaiKetNoi === active,
+        );
+        setTable({ ...table, data: temp as any });
+      }
+      return;
+    } else {
+      if (value === 'all') {
+        let temp = device.filter(
+          item =>
+            (removeAccents(item.maThietBi.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ) ||
+              removeAccents(item.tenThietBi.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              ) ||
+              removeAccents(item.ip.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              )) &&
+            item.trangThaiHoatDong === statusActivity,
+        );
+        setTable({ ...table, data: temp as any });
+      } else {
+        let temp = device.filter(
+          item =>
+            (removeAccents(item.maThietBi.toLocaleLowerCase()).includes(
+              removeAccents(key.toLocaleLowerCase()),
+            ) ||
+              removeAccents(item.tenThietBi.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              ) ||
+              removeAccents(item.ip.toLocaleLowerCase()).includes(
+                removeAccents(key.toLocaleLowerCase()),
+              )) &&
+            item.trangThaiHoatDong === statusActivity &&
+            item.trangThaiKetNoi === active,
+        );
+        setTable({ ...table, data: temp as any });
+      }
+    }
+  };
   return (
     <div className='content pl-[24px] pt-[29px] pr-[100px] relative device lg:pr-1'>
       <div className='path text-primary-gray-light-400 font-bold text-xl leading-[30px] mb-11'>
@@ -161,7 +366,7 @@ const DeviceManager = (props: Props) => {
             </span>
             <Select
               suffixIcon={<CaretDownOutlined />}
-              onChange={handleChange}
+              onChange={handleActivityChange}
               defaultValue={'Tất cả'}
               className='w-[300px] h-11 text-primary-gray-400'
             >
@@ -176,13 +381,13 @@ const DeviceManager = (props: Props) => {
             </span>
             <Select
               suffixIcon={<CaretDownOutlined />}
-              onChange={handleChange}
+              onChange={handleConnectChange}
               defaultValue={'Tất cả'}
               className='w-[300px] h-11 text-primary-gray-400'
             >
               <Option value='all'>Tất cả</Option>
-              <Option value='connect'>Kết nối</Option>
-              <Option value='disconnect'>Mất kết nối</Option>
+              <Option value='online'>Kết nối</Option>
+              <Option value='offline'>Mất kết nối</Option>
             </Select>
           </div>
         </div>
@@ -192,7 +397,8 @@ const DeviceManager = (props: Props) => {
           </span>
           <Input.Search
             placeholder='Nhập từ khóa'
-            onSearch={value => console.log(value)}
+            // onSearch={value => console.log(value)}
+            onChange={handleInputSearch}
             className='w-[300px] h-11 text-primary-gray-400'
           />
         </div>
