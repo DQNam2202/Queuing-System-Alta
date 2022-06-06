@@ -10,6 +10,6 @@ export default interface Service {
   autoIncrease: SizeTwo<string>;
   prefix: string;
   surfix: string;
-  reset: Boolean;
+  resetEveryDay: Boolean;
   trangThai: Boolean;
 }

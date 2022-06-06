@@ -1,315 +1,326 @@
-import React, { useEffect, useState } from "react";
-import {
-  Form,
-  Input,
-  InputNumber,
-  Button,
-  Space,
-  Row,
-  Col,
-  Checkbox,
-} from "antd";
-import { Link } from "react-router-dom";
-import "./style.scss";
+import React, { useEffect, useState } from 'react';
+import { Form, Input, Space, Row, Col, Checkbox } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom';
+import './style.scss';
+import ServiceServices from '../../../../db/services/service.services';
+import IService from '../../../../db/types/service.type';
+import Swal from 'sweetalert2';
+import LogServices from '../../../../db/services/log_system.services';
+import { useAppSelector } from '../../../../app/hooks';
+import { selectUser } from '../../../../features/user/userSlice';
+import { getID } from '../../../../APIs/getIP';
 type Props = {};
-
+interface SizeTwo<T> {
+  0: T;
+  1: T;
+}
+type CapSo = {
+  autoIncrease: SizeTwo<string>;
+  prefix: string;
+  surfix: string;
+  resetEveryDay: boolean;
+};
 /* eslint-disable no-template-curly-in-string */
 const validateMessages = {
-  required: "${label} is required!",
+  required: '${label} is required!',
   types: {
-    email: "${label} is not a valid email!",
-    number: "${label} is not a valid number!",
+    email: '${label} is not a valid email!',
+    number: '${label} is not a valid number!',
   },
   number: {
-    range: "${label} must be between ${min} and ${max}",
+    range: '${label} must be between ${min} and ${max}',
   },
 };
 
 const AddService = (props: Props) => {
-  const [dichVu, setDichVu] = useState({
-    maDv: "201",
-    capSo: {
-      autoInc: ["0000", "9999"],
-      prefix: "0001",
-      surfix: "0001",
-      everyday: false,
-    },
-  });
   const [form] = Form.useForm();
-  //Set value
+  const { id } = useParams();
+  const [services, setServices] = useState<IService[]>();
+  const [serviceUpdate, setServiceUpdate] = useState<IService>();
+
+  const me = useAppSelector(selectUser);
+
+  const history = useNavigate();
   useEffect(() => {
-    form.setFieldsValue({
-      dichvu:{
-        maDv : "201",
-        tenDv: "Dich vu 01",
-        moTa : "mo ta example 01",
-        capSo: ['autoInc','resetEveryday','prefix']
+    (async () => {
+      let data = await ServiceServices.getService();
+      let index = data.findIndex(item => item.id === id);
+      if (index === -1) {
+        history('/services-management');
+      } else {
+        setServices(data);
+        setServiceUpdate(data[index]);
+        let temp = { ...data[index] };
+        form.setFieldsValue({
+          auto: {
+            checked: temp.autoIncrease[0] !== '' ? true : false,
+            start: temp.autoIncrease[0] !== '' ? temp.autoIncrease[0] : '0001',
+            end: temp.autoIncrease[1] !== '' ? temp.autoIncrease[1] : '9999',
+          },
+          maDichVu: temp.maDichVu,
+          moTa: temp.moTa,
+          prefix: {
+            checked: temp.prefix !== '' ? true : false,
+            start: temp.prefix !== '' ? temp.prefix : '0001',
+          },
+          reset: temp.resetEveryDay,
+          surfix: {
+            checked: temp.surfix !== '' ? true : false,
+            start: temp.surfix !== '' ? temp.surfix : '0001',
+          },
+          tenDichVu: temp.tenDichVu,
+        });
       }
-    })
+    })();
+  }, []);
 
-  }, [])
-  
-  const onFinish = (values: any) => {
-    console.log(dichVu, values);
+  const handleFormChange = (e: any) => {
+    if (e.target.id === 'nest-messages_dichvu_maDv') {
+      console.log(e.target.value);
+    }
   };
-  function onChange(checkedValues: any) {
-    let temp = { ...dichVu };
-    if (checkedValues.includes("resetEveryday")) {
-      temp.capSo.everyday = true;
-      setDichVu({ ...temp });
+  const onFinish = async (values: any) => {
+    let { auto, maDichVu, moTa, prefix, surfix, reset, tenDichVu } = values;
+    let capSo: CapSo = {
+      autoIncrease: ['', ''],
+      prefix: '',
+      surfix: '',
+      resetEveryDay: reset,
+    };
+    if (auto.checked) {
+      capSo.autoIncrease = [auto.start, auto.end];
     }
-  }
-  const handleNumeric = (e: any) => {
-    let value = e.target.value;
-
-    if (!Number(value)) {
-      return;
+    if (prefix.checked) {
+      capSo.prefix = prefix.start;
     }
-    setDichVu({ ...dichVu, maDv: value });
-  };
-
-  const handleCapSoChange = (e: any) => {
-    let value = e.target.value;
-    if (value !== "000" && value !== "00" && value !== "0") {
-      if (!Number(value)) {
-        return;
-      }
+    if (surfix.checked) {
+      capSo.surfix = surfix.start;
     }
-
-    if (e.target.name.includes("autoInc")) {
-      let temp = e.target.name.includes("start")
-        ? [value, dichVu.capSo.autoInc[1]]
-        : [dichVu.capSo.autoInc[0], value];
-      setDichVu({
-        ...dichVu,
-        capSo: {
-          ...dichVu.capSo,
-          autoInc: [...temp],
-        },
+    let service: IService = {
+      ...capSo,
+      maDichVu,
+      moTa,
+      tenDichVu,
+      trangThai: true,
+      id,
+    };
+    let index = services
+      ?.filter(item => item.id !== serviceUpdate?.id)
+      .findIndex(item => item.maDichVu === service.maDichVu);
+    if (index !== -1) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Mã dịch vụ đã tồn tại',
+        icon: 'error',
+        confirmButtonText: 'Xác nhận',
       });
       return;
     }
-
-    setDichVu({
-      ...dichVu,
-      capSo: {
-        ...dichVu.capSo,
-        [e.target.name]: value,
-      },
+    ServiceServices.updateService(service);
+    Swal.fire({
+      title: 'Success!',
+      text: 'Cập nhật dịch vụ thành công',
+      icon: 'success',
+      confirmButtonText: 'Xác nhận',
+    });
+    //Add user log
+    let ipv4 = await getID();
+    LogServices.addLog({
+      action: `Cập nhật dịch vụ ${service.maDichVu}`,
+      actionTime: new Date(),
+      ip: ipv4.IPv4,
+      tenDangNhap: me ? me.tenDangNhap : 'Unknown',
     });
   };
-
-  const handleFocusOut = (e: any) => {
-    let value = e.target.value;
-    if (
-      value === "000" ||
-      value === "00" ||
-      value === "0" ||
-      value.length === 2 ||
-      value.length === 3
-    ) {
-      if (e.target.name.includes("autoInc")) {
-        let value;
-        if (e.target.name.includes("start")) {
-          value = ["0001", dichVu.capSo.autoInc[1]];
-        } else {
-          if (e.target.value === "9") {
-            value = [dichVu.capSo.autoInc[0], "9000"];
-          } else {
-            value = [dichVu.capSo.autoInc[0], "9999"];
-          }
-        }
-
-        setDichVu({
-          ...dichVu,
-          capSo: {
-            ...dichVu.capSo,
-            autoInc: [...value],
-          },
-        });
-        return;
-      }
-      let newVal = "0001";
-      if (value.length === 2) {
-        newVal = `00${value}`;
-      }
-      if (value.length === 3) {
-        newVal = `0${value}`;
-      }
-      setDichVu({
-        ...dichVu,
-        capSo: {
-          ...dichVu.capSo,
-          [e.target.name]: newVal,
-        },
-      });
-    }
-  };
-  const handleFormChange=(e:any)=>{
-    if(e.target.id === "nest-messages_dichvu_maDv"){
-      console.log(e.target.value)
-    }
-  }
   return (
-    <div className="update-service content pl-[24px] pt-[29px] pr-[100px] lg:pr-2 md:pt-10 relative">
-      <div className="path text-gray-600 font-bold text-lg mb-11">
-        Dịch vụ &gt; Danh sách dịch vụ &gt;{" "}
-        <span className="text-primary font-bold">Cập nhật</span>
+    <div className='content pl-[24px] pt-[29px] pr-[100px] lg:pr-2 md:pt-10 relative service-add'>
+      <div className='path text-gray-600 font-bold text-lg mb-11 '>
+        Dịch vụ &gt; Danh sách dịch vụ &gt;{' '}
+        <span className='text-primary font-bold'>Cập nhật dịch vụ</span>
       </div>
-      <h2 className="text-primary text-2xl font-bold mb-4">Quản lý dịch vụ</h2>
-      <div className="w-full h-full update-content">
-        <h3 className="text-primary text-lg font-bold mb-3">
+      <h2 className='text-primary text-2xl font-bold mb-4'>Quản lý dịch vụ</h2>
+      <div className='w-full h-full add-content'>
+        <h3 className='text-primary text-lg font-bold mb-3'>
           Thông tin dịch vụ
         </h3>
-        <Form 
-          form ={form}
-          name="nest-messages"
+        <Form
+          name='nest-messages'
           onFinish={onFinish}
           validateMessages={validateMessages}
           onChange={handleFormChange}
+          form={form}
         >
           <Row gutter={[16, 16]}>
             <Col span={12} xs={24} xl={12}>
               <Form.Item
-                name={["dichvu", "maDv"]}
-                label="Mã dịch vụ:"
+                name={['maDichVu']}
+                label='Mã dịch vụ:'
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng nhập mã dịch vụ",
+                    message: 'Vui lòng nhập mã dịch vụ',
+                  },
+                  {
+                    pattern: new RegExp(/^\d{3}$/gm),
+                    message: 'Wrong format! Examples: 2xx, 201, 202, 102',
                   },
                 ]}
               >
-                <Input value={dichVu.maDv} onChange={handleNumeric} />
+                <Input className='py-[10px] pl-3' />
               </Form.Item>
               <Form.Item
-                name={["dichvu", "tenDv"]}
-                label="Tên dịch vụ:"
+                name={['tenDichVu']}
+                label='Tên dịch vụ:'
                 rules={[
                   {
                     required: true,
-                    message: "Vui lòng nhập tên dịch vụ",
+                    message: 'Vui lòng nhập tên dịch vụ',
                   },
                 ]}
               >
-                <Input />
+                <Input className='py-[10px] pl-3' />
               </Form.Item>
             </Col>
             <Col span={12} xs={24} xl={12}>
               <Form.Item
-                name={["dichvu", "moTa"]}
-                label="Mô tả:"
-                className="textarea"
+                name={['moTa']}
+                label='Mô tả:'
+                className='textarea'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui lòng nhập mô tả dịch vụ',
+                  },
+                ]}
               >
-                <Input.TextArea />
+                <Input.TextArea className='py-[10px] pl-3 lg:block lg:ml-auto' />
               </Form.Item>
             </Col>
           </Row>
-          <h3 className="text-primary text-lg font-bold mb-3">
+          <h3 className='text-primary text-lg font-bold mb-3'>
             Quy tắc cấp số
           </h3>
-          <Form.Item name={["dichvu", "capSo"]}>
-            <Checkbox.Group onChange={onChange}>
-              <Row gutter={[16, 16]}>
-                <Col span={24}>
-                  <Checkbox value="autoInc" style={{ lineHeight: "32px" }}>
-                    Tăng tự động từ:{" "}
-                    <Form.Item
-                      rules={[
-                        {
-                          type: "number",
-                        },
-                      ]}
-                    >
-                      <Input
-                        value={dichVu.capSo.autoInc[0]}
-                        onBlur={handleFocusOut}
-                        onChange={handleCapSoChange}
-                        name="autoInc_start"
-                        className="rounded-lg inlineInput"
-                      />{" "}
-                      đến{" "}
-                      <Input
-                        value={dichVu.capSo.autoInc[1]}
-                        onChange={handleCapSoChange}
-                        name="autoInc_end"
-                        className="rounded-lg inlineInput"
-                        min={0}
-                        max={9999}
-                      />
-                    </Form.Item>
-                  </Checkbox>
-                </Col>
-                <Col span={24}>
-                  <Checkbox value="prefix" style={{ lineHeight: "32px" }}>
-                    Prefix:
-                    <Form.Item
-                      rules={[
-                        {
-                          type: "number",
-                        },
-                      ]}
-                    >
-                      <Input
-                        value={dichVu.capSo.prefix}
-                        onBlur={handleFocusOut}
-                        onChange={handleCapSoChange}
-                        name="prefix"
-                        className="rounded-lg inlineInput ml-16"
-                      />{" "}
-                    </Form.Item>
-                  </Checkbox>
-                </Col>
-                <Col span={24}>
-                  <Checkbox value="surfix" style={{ lineHeight: "32px" }}>
-                    Surfix:{" "}
-                    <Form.Item
-                      rules={[
-                        {
-                          type: "number",
-                        },
-                      ]}
-                    >
-                      <Input
-                        value={dichVu.capSo.surfix}
-                        onBlur={handleFocusOut}
-                        onChange={handleCapSoChange}
-                        name="surfix"
-                        className="rounded-lg inlineInput ml-16"
-                      />{" "}
-                    </Form.Item>
-                  </Checkbox>
-                </Col>
-                <Col span={24}>
-                  <Checkbox
-                    value="resetEveryday"
-                    style={{ lineHeight: "32px" }}
+          <Row gutter={[16, 16]}>
+            <Col span={24}>
+              <div className='flex items-center'>
+                <div className='flex items-center'>
+                  <Form.Item name={['auto', 'checked']} valuePropName='checked'>
+                    <Checkbox style={{ lineHeight: '32px' }} />
+                  </Form.Item>
+                  <span className='flex items-center h-[32px] mb-[24px] mx-1'>
+                    Tăng tự động từ:
+                  </span>
+                </div>
+                <div className='flex items-center'>
+                  <Form.Item
+                    name={['auto', 'start']}
+                    rules={[
+                      {
+                        pattern: new RegExp(/^\d{4}$/gm),
+                        message: 'Nhập chuỗi số có 4 chữ số!',
+                      },
+                    ]}
                   >
-                    Reset mỗi ngày
-                  </Checkbox>
-                </Col>
-              </Row>
-            </Checkbox.Group>
-          </Form.Item>
+                    <Input className='rounded-lg inlineInput' />
+                  </Form.Item>
+                  <span className='flex items-center  h-[32px] mb-[24px] mx-1'>
+                    đến
+                  </span>
+                  <Form.Item
+                    name={['auto', 'end']}
+                    rules={[
+                      {
+                        pattern: new RegExp(/^\d{4}$/gm),
+                        message: 'Nhập chuỗi số có 4 chữ số!',
+                      },
+                    ]}
+                  >
+                    <Input className='rounded-lg inlineInput' />
+                  </Form.Item>
+                </div>
+              </div>
+            </Col>
+            <Col span={24}>
+              <div className='flex items-center'>
+                <div className='flex items-center'>
+                  <Form.Item
+                    name={['prefix', 'checked']}
+                    valuePropName='checked'
+                  >
+                    <Checkbox style={{ lineHeight: '32px' }} />
+                  </Form.Item>
+                  <span className='flex items-center h-[32px] mb-[24px] mx-1 w-[102px]'>
+                    Prefix:
+                  </span>
+                </div>
+                <div className='flex items-center'>
+                  <Form.Item
+                    name={['prefix', 'start']}
+                    rules={[
+                      {
+                        pattern: new RegExp(/^\d{4}$/gm),
+                        message: 'Nhập chuỗi số có 4 chữ số!',
+                      },
+                    ]}
+                  >
+                    <Input className='rounded-lg inlineInput' />
+                  </Form.Item>
+                </div>
+              </div>
+            </Col>
+            <Col span={24}>
+              <div className='flex items-center'>
+                <div className='flex items-center'>
+                  <Form.Item
+                    name={['surfix', 'checked']}
+                    valuePropName='checked'
+                  >
+                    <Checkbox style={{ lineHeight: '32px' }} />
+                  </Form.Item>
+                  <span className='flex items-center h-[32px] mb-[24px] mx-1 w-[102px]'>
+                    Surfix:
+                  </span>
+                </div>
+                <div className='flex items-center'>
+                  <Form.Item
+                    name={['surfix', 'start']}
+                    rules={[
+                      {
+                        pattern: new RegExp(/^\d{4}$/gm),
+                        message: 'Nhập chuỗi số có 4 chữ số!',
+                      },
+                    ]}
+                  >
+                    <Input className='rounded-lg inlineInput' />
+                  </Form.Item>
+                </div>
+              </div>
+            </Col>
+            <Col span={24}>
+              <Form.Item name={['reset']} valuePropName='checked'>
+                <Checkbox style={{ lineHeight: '32px' }}>
+                  Reset mỗi ngày
+                </Checkbox>
+              </Form.Item>
+            </Col>
+          </Row>
           <span>
-            <span className="text-primary">*</span> là trường thông tin bắt buộc
+            <span className='text-primary'>*</span> là trường thông tin bắt buộc
           </span>
-          <Form.Item>
-            <Space align="center" className=" flex justify-center w-full md:mt-4">
+          <Space align='center' className=' flex justify-center w-full md:mt-5'>
             <button
               type='submit'
               className='w-[160px] text-primary-400 px-6 py-[13px] rounded-lg font-bold text-base outline-none border[1.5px] border-solid border-primary-400 bg-primary-50 leading-[22px]'
             >
               Hủy bỏ
             </button>
-              <button
+            <button
               type='submit'
               className='w-[160px] text-white px-6 py-[13px] rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-primary-400 leading-[22px]'
             >
               Cập nhật
             </button>
-            </Space>
-          </Form.Item>
+          </Space>
         </Form>
       </div>
     </div>

@@ -28,7 +28,7 @@ class ServiceServices {
         prefix: doc.data().prefix,
         surfix: doc.data().surfix,
         autoIncrease: doc.data().autoIncrease,
-        reset: doc.data().reset,
+        resetEveryDay: doc.data().reset,
         trangThai: doc.data().trangThai,
       };
       serviceList.push(item);

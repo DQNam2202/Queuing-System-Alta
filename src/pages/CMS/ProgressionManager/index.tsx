@@ -141,7 +141,7 @@ const ProgressManager = (props: Props) => {
         maDichVu: 'all',
         moTa: '',
         prefix: '0001',
-        reset: true,
+        resetEveryDay: true,
         surfix: '0001',
         tenDichVu: 'Tất cả',
         trangThai: false,

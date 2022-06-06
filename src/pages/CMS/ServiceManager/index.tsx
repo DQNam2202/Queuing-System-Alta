@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { DatePicker, Input, Select } from 'antd';
 import { Table } from 'antd';
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
 import './style.scss';
 import { Link } from 'react-router-dom';
+import ServiceServices from '../../../db/services/service.services';
+import IService from '../../../db/types/service.type';
+import moment from 'moment-timezone';
 type Props = {};
 
 const columns = [
   {
     title: 'Mã dịch vụ',
-    dataIndex: 'maDv',
+    dataIndex: 'maDichVu',
     width: '20%',
   },
   {
     title: 'Tên dịch vụ',
-    dataIndex: 'tenDv',
+    dataIndex: 'tenDichVu',
     width: '20%',
   },
   {
@@ -44,7 +47,7 @@ const columns = [
     render: (item: any, record: any) => (
       <Link
         className='text-blue-500 underline'
-        to={`/services-management/detail/${record.maDv}`}
+        to={`/services-management/detail/${record.id}`}
       >
         Chi tiết
       </Link>
@@ -56,7 +59,7 @@ const columns = [
     render: (item: any, record: any) => (
       <Link
         className='text-blue-500 underline'
-        to={`/services-management/update/${record.maDv}`}
+        to={`/services-management/update/${record.id}`}
       >
         Cập nhật
       </Link>
@@ -65,6 +68,13 @@ const columns = [
 ];
 
 const ServiceManager = (props: Props) => {
+  const [key, setKey] = useState('');
+  const [services, setServices] = useState<IService[]>([]);
+  const searchRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [time, setTime] = useState({
+    startDay: moment(),
+    endDay: moment().add(7, 'days'),
+  });
   const [table, setTable] = useState({
     data: [],
     pagination: {
@@ -75,31 +85,131 @@ const ServiceManager = (props: Props) => {
   });
   const { Option } = Select;
   function handleChange(value: any) {
-    console.log(`Selected: ${value}`);
-  }
-  const handleDateChange = (date: any, dateString: String) => {
-    console.log(date, dateString);
-  };
-  useEffect(() => {
-    //Data demo
-    const data = [];
-    for (let index = 0; index < 50; index++) {
-      let temp = {
-        key: index,
-        maDv: `KIO_0${index}`,
-        tenDv: `Kiosk ${index}`,
-        moTa: `Mô tả ${index}`,
-        trangThai: index % 2 === 0 ? true : false,
-      };
-      data.push(temp);
-    }
+    if (value === 'all') {
+      let temp = services.filter(
+        item =>
+          xoa_dau(item.maDichVu.toLocaleLowerCase()).includes(
+            xoa_dau(key.toLocaleLowerCase()),
+          ) ||
+          xoa_dau(item.moTa.toLocaleLowerCase()).includes(
+            xoa_dau(key.toLocaleLowerCase()),
+          ) ||
+          xoa_dau(item.tenDichVu.toLocaleLowerCase()).includes(
+            xoa_dau(key.toLocaleLowerCase()),
+          ),
+      );
 
-    setTable({ ...table, data: data as any });
+      setTable({ ...table, data: temp as any });
+      return;
+    } else {
+      let active = value === 'online' ? true : false;
+      console.log(services);
+      let temp = services.filter(
+        item =>
+          (xoa_dau(item.maDichVu.toLocaleLowerCase()).includes(
+            xoa_dau(key.toLocaleLowerCase()),
+          ) ||
+            xoa_dau(item.moTa.toLocaleLowerCase()).includes(
+              xoa_dau(key.toLocaleLowerCase()),
+            ) ||
+            xoa_dau(item.tenDichVu.toLocaleLowerCase()).includes(
+              xoa_dau(key.toLocaleLowerCase()),
+            )) &&
+          item.trangThai === active,
+      );
+      setTable({ ...table, data: temp as any });
+    }
+  }
+  useEffect(() => {
+    (async () => {
+      let data = await ServiceServices.getService();
+      data = data.map(item => {
+        //Format vai tro
+        return {
+          ...item,
+          key: item.id,
+        };
+      });
+      setServices(data);
+      setTable({ ...table, data: data as any });
+    })();
   }, []);
 
   const handlePanigationChange = (current: any) => {
     setTable({ ...table, pagination: { ...table.pagination, current } });
   };
+
+  const xoa_dau = (str: string) => {
+    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, 'a');
+    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, 'e');
+    str = str.replace(/ì|í|ị|ỉ|ĩ/g, 'i');
+    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, 'o');
+    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, 'u');
+    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, 'y');
+    str = str.replace(/đ/g, 'd');
+    str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, 'A');
+    str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, 'E');
+    str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, 'I');
+    str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, 'O');
+    str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, 'U');
+    str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, 'Y');
+    str = str.replace(/Đ/g, 'D');
+    return str;
+  };
+  const handleKeyWordChange = (e: React.FormEvent<HTMLInputElement>) => {
+    let value = e.currentTarget.value;
+    setKey(value);
+    if (searchRef) {
+      clearInterval(searchRef.current as any);
+    }
+    searchRef.current = setTimeout(() => {
+      let temp = services.filter(
+        item =>
+          xoa_dau(item.maDichVu.toLocaleLowerCase()).includes(
+            xoa_dau(value.toLocaleLowerCase()),
+          ) ||
+          xoa_dau(item.moTa.toLocaleLowerCase()).includes(
+            xoa_dau(value.toLocaleLowerCase()),
+          ) ||
+          xoa_dau(item.tenDichVu.toLocaleLowerCase()).includes(
+            xoa_dau(value.toLocaleLowerCase()),
+          ),
+      );
+
+      setTable({ ...table, data: temp as any });
+      clearInterval(searchRef.current as any);
+    }, 700);
+  };
+  const handleDateChange = (start: any, end: any) => {
+    // let temp = logs.filter((log)=>{
+    //   let temp = log.actionTime as any
+    //   return  moment(temp.toDate()) >= start && moment(temp.toDate()) <= end || moment(temp.toDate()).isSame(end,'day') || moment(temp.toDate()).isSame(start,'day')
+    // }).filter(item=>
+    //   xoa_dau(item.tenDangNhap.toLocaleLowerCase()).includes(xoa_dau(key.toLocaleLowerCase()))
+    //   ||  xoa_dau(item.action.toLocaleLowerCase()).includes(xoa_dau(key.toLocaleLowerCase()))
+    //   || xoa_dau(item.ip.toLocaleLowerCase()).includes(xoa_dau(key.toLocaleLowerCase()))
+    //   || xoa_dau(item.tenDangNhap.toLocaleLowerCase()).includes(xoa_dau(key.toLocaleLowerCase()))
+    //   )
+    //   setTable({...table,data : temp as any})
+  };
+
+  const handleStartDateChange = (date: any, dateString: String) => {
+    let temp = date.clone();
+    if (date > time.endDay) {
+      setTime({ startDay: temp, endDay: date.add(7, 'days') });
+      handleDateChange(temp, date);
+    } else {
+      setTime({ ...time, startDay: temp });
+      handleDateChange(temp, time.endDay);
+    }
+  };
+  const handleEndDateChange = (date: any, dateString: String) => {
+    setTime({ ...time, endDay: date });
+    handleDateChange(time.startDay, date);
+  };
+  function disabledDate(current: any) {
+    return current < time.startDay;
+  }
 
   return (
     <div className='content pl-[24px] pt-[29px] pr-[100px] lg:pr-2 relative service'>
@@ -115,7 +225,7 @@ const ServiceManager = (props: Props) => {
             <Select
               suffixIcon={<CaretDownOutlined />}
               onChange={handleChange}
-              defaultValue={'Tất cả'}
+              defaultValue={'all'}
               className='w-[300px] h-11 text-primary-gray-400'
             >
               <Option value='all'>Tất cả</Option>
@@ -127,15 +237,18 @@ const ServiceManager = (props: Props) => {
             <span className='font-semibold'>Chọn thời gian</span>
             <div className='date-controls'>
               <DatePicker
-                onChange={handleDateChange}
+                onChange={handleStartDateChange}
                 className='rounded-lg w-[150px] h-11 text-primary-gray-400'
                 format={'DD/MM/YYYY'}
+                value={time.startDay}
               />
               <CaretRightOutlined className='' />
               <DatePicker
-                onChange={handleDateChange}
+                disabledDate={disabledDate}
+                onChange={handleEndDateChange}
                 className='rounded-lg w-[150px] h-11 text-primary-gray-400'
                 format={'DD/MM/YYYY'}
+                value={time.endDay}
               />
             </div>
           </div>
@@ -144,7 +257,7 @@ const ServiceManager = (props: Props) => {
           <span className='font-semibold'>Từ khoá</span>
           <Input.Search
             placeholder='Nhập từ khóa'
-            onSearch={value => console.log(value)}
+            onChange={handleKeyWordChange}
             className='w-[300px] h-11 text-primary-gray-400'
           />
         </div>
