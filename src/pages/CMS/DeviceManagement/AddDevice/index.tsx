@@ -72,7 +72,9 @@ const AddDevice = () => {
     });
     let ip = await getID();
     SystemLogServices.addLog({
-      tenDangNhap: getInfoUser?.tenDangNhap as string,
+      tenDangNhap: (getInfoUser?.tenDangNhap as string)
+        ? (getInfoUser?.tenDangNhap as string)
+        : 'Unknown',
       actionTime: new Date(),
       ip: ip.IPv4,
       action: `Thêm thiết bị mới ${value.maThietBi}`,

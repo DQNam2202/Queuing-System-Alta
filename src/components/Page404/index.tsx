@@ -1,6 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Page404 = () => {
+  const history = useNavigate();
+  const handleBackHome = () => {
+    history('/dashboard');
+  };
   return (
     <div className='flex justify-center items-center min-h-screen'>
       <div className='text-center'>
@@ -13,7 +18,11 @@ const Page404 = () => {
         <h4 className='mt-10 mb-3 text-xl font-medium'>
           We can't find the page you're looking for
         </h4>
-        <button type='button' className='btn-animation'>
+        <button
+          type='button'
+          className='btn-animation'
+          onClick={handleBackHome}
+        >
           GO BACK HOME
         </button>
       </div>

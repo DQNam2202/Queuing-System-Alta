@@ -53,7 +53,7 @@ const Login = () => {
   return (
     <React.Fragment>
       <Layout className='h-screen'>
-        <Content className='w-[592px] login'>
+        <Content className='w-[592px] '>
           <div className='flex justify-center items-center w-full bg-primary-light-gray'>
             <div className='flex flex-col justify-center items-center w-[400px]'>
               <div className='w-[170px] h-[136px] mt-[60px] mb-[60px]'>
@@ -63,7 +63,7 @@ const Login = () => {
                   className='w-full h-full object-cover'
                 />
               </div>
-              <div className='w-full'>
+              <div className='w-full login'>
                 <Form className='w-full' onFinish={handelLoginForm}>
                   <div>
                     <Form.Item

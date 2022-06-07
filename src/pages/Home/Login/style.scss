@@ -11,6 +11,13 @@
       color: #ff9138;
     }
   }
+  .ant-form-item {
+    display: flex;
+    flex-direction: column;
+    .ant-form-item-label {
+      text-align: left;
+    }
+  }
   // Tạo class login tại input field username
   .ant-form-item-control-input-content {
     .ant-input {

@@ -36,11 +36,52 @@
   .ant-form-item {
     flex-direction: row !important;
   }
-  input,textarea{
+  input,
+  textarea {
     border-radius: 5px;
     &:focus {
       border: 1px solid #ff7506;
       outline: none;
+    }
+  }
+  .ant-btn {
+    width: 147px;
+    height: 48px;
+    &:hover {
+      color: #fff;
+      background: #ff9138;
+      border: 1px solid #ff9138;
+    }
+    &.btn-cancel {
+      &:hover {
+        background: #fff;
+        color: #ff9138;
+        border: 1px solid #ff9138;
+      }
+    }
+  }
+  .ant-form-item-control-input-content {
+    .ant-input {
+      &.ant-service {
+        border: 1px solid #dcdcdc !important;
+        &:hover {
+          border-color: #ff9138 !important;
+        }
+      }
+    }
+    .ant-input:focus,
+    .ant-input-focused {
+      border-color: #ff9138 !important;
+      --tw-ring-color: #ff9138 !important;
+      box-shadow: 0 0 0 0 rgb(255, 255, 255) !important;
+      outline: none;
+    }
+    .ant-input-affix-wrapper:focus,
+    .ant-input-affix-wrapper-focused {
+      border: 2px solid #ff9138 !important;
+      --tw-ring-color: #ff9138 !important;
+      outline: none;
+      box-shadow: 0 0 0 0 rgb(255, 255, 255) !important;
     }
   }
 }

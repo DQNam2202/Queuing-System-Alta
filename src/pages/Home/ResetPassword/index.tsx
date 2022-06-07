@@ -1,17 +1,39 @@
-import React from 'react';
-import { Button, Input, Layout } from 'antd';
+import React, { useEffect } from 'react';
+import { Button, Input, Layout, Form } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import UserServices from '../../../db/services/user.services';
+import IUser from '../../../db/types/user.type';
 import './style.scss';
 const { Sider, Content } = Layout;
 
 const ResetPassword = () => {
+  const [form] = Form.useForm();
   const history = useNavigate();
-
+  const [user, setUser] = React.useState<any>();
+  useEffect(() => {
+    (async () => {
+      let dataUser = await UserServices.getUser();
+      setUser(dataUser);
+    })();
+  }, []);
   // handel email
 
   const handelBackLogin = () => {
     history('/login');
+  };
+  const handleSubmit = (values: any) => {
+    let index = user.findIndex((item: IUser) => item.email === values.email);
+    if (index === -1) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Thông báo',
+        text: 'Email không trùng khớp',
+        confirmButtonText: 'Đóng',
+      });
+    } else {
+      history('/newpass');
+    }
   };
   return (
     <React.Fragment>
@@ -27,15 +49,29 @@ const ResetPassword = () => {
                 />
               </div>
               <div className='w-full'>
-                <form className='w-full'>
+                <Form className='w-full' form={form} onFinish={handleSubmit}>
                   <h1 className='text-center text-primary-gray-500 font-bold text-[22px] leading-8'>
                     Đặt lại mật khẩu
                   </h1>
                   <div className='mt-4'>
-                    <label className='font-normal text-primary-gray-300 leading-7 '>
-                      Vui lòng nhập email để đăt lại mật khẩu của bạn *
-                    </label>
-                    <Input className='w-full h-11 rounded-lg mt-1 hover:border-primary border border-solid border-primary-gray-light-400' />
+                    <Form.Item
+                      name={'email'}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Vui lòng nhập email',
+                        },
+                        {
+                          type: 'email',
+                          message: 'Wrong format email!',
+                        },
+                      ]}
+                    >
+                      <Input
+                        className='w-full h-11 rounded-lg mt-1 hover:border-primary border border-solid border-primary-gray-light-400'
+                        autoComplete='off'
+                      />
+                    </Form.Item>
                   </div>
                   <div className='flex justify-center mt-[48px] gap-x-[33px]'>
                     <Button
@@ -48,7 +84,7 @@ const ResetPassword = () => {
                       Tiếp tục
                     </Button>
                   </div>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
