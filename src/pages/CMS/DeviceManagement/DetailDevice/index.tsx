@@ -1,7 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Row, Col } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import DeviceServices from '../../../../db/services/device.services';
+import ServiceServices from '../../../../db/services/service.services';
 const DetailDevice = () => {
+  const { id } = useParams();
+  const history = useNavigate();
+  const [device, setDevice] = React.useState<any>();
+
+  useEffect(() => {
+    (async () => {
+      let data = await DeviceServices.getDevice();
+      let services = await ServiceServices.getService();
+      // Set lại data
+      data = data.map((item: any) => {
+        let serviceList = item.dichVuSuDung.map((temp: any) => {
+          let service = services.find(ser => ser.maDichVu === temp);
+          return service?.tenDichVu;
+        });
+        return {
+          ...item,
+          key: item.id,
+          dichVuSuDung: serviceList as any,
+        };
+      });
+      let index = data.findIndex(item => item.id === id);
+      if (index !== -1) {
+        setDevice(data[index]);
+      } else {
+        history('/device-management');
+      }
+    })();
+  }, []);
+  console.log(device);
   return (
     <div className='content pl-[24px] pt-[29px] pr-[100px] lg:pr-2 relative'>
       <div className='path text-gray-600 font-bold text-lg mb-11'>
@@ -20,7 +51,7 @@ const DetailDevice = () => {
                 Mã thiết bị:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400'>
-                KIO_101
+                {device?.maThietBi}
               </p>
             </div>
           </Col>
@@ -30,7 +61,7 @@ const DetailDevice = () => {
                 Loại thiết bị:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400'>
-                Kisok
+                {device?.loaiThietBi}
               </p>
             </div>
           </Col>
@@ -40,7 +71,7 @@ const DetailDevice = () => {
                 Tên thiết bị:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400'>
-                Kisok
+                {device?.tenThietBi}
               </p>
             </div>
           </Col>
@@ -50,7 +81,7 @@ const DetailDevice = () => {
                 Tên đăng nhập:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400'>
-                Linhkyo011
+                {device?.tenDangNhap}
               </p>
             </div>
           </Col>
@@ -60,7 +91,7 @@ const DetailDevice = () => {
                 Địa chỉ IP:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400'>
-                128.172.308
+                {device?.ip}
               </p>
             </div>
           </Col>
@@ -70,7 +101,7 @@ const DetailDevice = () => {
                 Mật khẩu:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400'>
-                CMS
+                {device?.matKhau}
               </p>
             </div>
           </Col>
@@ -80,8 +111,7 @@ const DetailDevice = () => {
                 Dịch vụ sử dụng:
               </span>
               <p className='font-normal text-base leading-6 text-primary-gray-400 mt-2'>
-                Khám tim mạch, Khám sản - Phụ khoa, Khám răng hàm mặt, Khám tai
-                mũi họng, Khám hô hấp, Khám tổng quát.
+                {device?.dichVuSuDung.join(', ')}
               </p>
             </div>
           </Col>

@@ -2,10 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Input, Select } from 'antd';
 import { Table } from 'antd';
 import { CaretDownOutlined } from '@ant-design/icons';
-import Swal from 'sweetalert2';
 import './style.scss';
 import { Link } from 'react-router-dom';
-import Service from '../../../db/types/service.type';
 import DeviceServices from '../../../db/services/device.services';
 import ServiceServices from '../../../db/services/service.services';
 import IDevice from '../../../db/types/device.type';
@@ -122,10 +120,6 @@ const DeviceManager = (props: Props) => {
     loading: false,
   });
 
-  function handleChange(value: any) {
-    console.log(`Selected: ${value}`);
-  }
-
   useEffect(() => {
     (async () => {
       let data = await DeviceServices.getDevice();
@@ -207,6 +201,7 @@ const DeviceManager = (props: Props) => {
     // Trạng thái hoạt động khi click vào ô trạng thái hoạt động
     let active = value === 'online' ? true : false;
     setActivity(value);
+    // khi cả hai status và activity đều all
     if (statusConnect === '') {
       if (value === 'all') {
         let temp = device.filter(

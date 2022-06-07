@@ -6,7 +6,6 @@ import './style.scss';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ServiceServices from '../../../../db/services/service.services';
 import IService from '../../../../db/types/service.type';
-import Swal from 'sweetalert2';
 import ProgressionServices from '../../../../db/services/progression.services';
 import IProgression from '../../../../db/types/progression.type';
 import moment from 'moment-timezone';
