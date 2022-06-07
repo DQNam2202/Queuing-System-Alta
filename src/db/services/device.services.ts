@@ -12,7 +12,7 @@ const db = firebase;
 
 class DeviceServices {
   // TODO: Add device to the database
-  adđevice = async (device: IDevice) => {
+  addDevice = async (device: IDevice) => {
     await setDoc(doc(collection(db, 'device')), device);
   };
   // TODO: Get device to the database

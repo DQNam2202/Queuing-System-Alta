@@ -32,7 +32,6 @@ const DetailDevice = () => {
       }
     })();
   }, []);
-  console.log(device);
   return (
     <div className='content pl-[24px] pt-[29px] pr-[100px] lg:pr-2 relative'>
       <div className='path text-gray-600 font-bold text-lg mb-11'>
