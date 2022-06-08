@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Space, Row, Col, Checkbox } from 'antd';
+import { Form, Input, Space, Row, Col, Checkbox, Button } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import './style.scss';
 import ServiceServices from '../../../../db/services/service.services';
@@ -32,7 +32,7 @@ const validateMessages = {
   },
 };
 
-const AddService = (props: Props) => {
+const UpdateService = (props: Props) => {
   const [form] = Form.useForm();
   const { id } = useParams();
   const [services, setServices] = useState<IService[]>();
@@ -132,8 +132,11 @@ const AddService = (props: Props) => {
       tenDangNhap: me ? me.tenDangNhap : 'Unknown',
     });
   };
+  const handleBackService = () => {
+    history('/services-management');
+  };
   return (
-    <div className='content pl-[24px] pt-[29px] pr-[100px] lg:pr-2 md:pt-10 relative service-add'>
+    <div className='content pl-[24px] pt-[29px] pr-[100px] lg:pr-2 md:pt-10 relative '>
       <div className='path text-gray-600 font-bold text-lg mb-11 '>
         Dịch vụ &gt; Danh sách dịch vụ &gt;{' '}
         <span className='text-primary font-bold'>Cập nhật dịch vụ</span>
@@ -144,6 +147,7 @@ const AddService = (props: Props) => {
           Thông tin dịch vụ
         </h3>
         <Form
+          className='update-service'
           name='nest-messages'
           onFinish={onFinish}
           validateMessages={validateMessages}
@@ -166,7 +170,7 @@ const AddService = (props: Props) => {
                   },
                 ]}
               >
-                <Input className='py-[10px] pl-3' />
+                <Input className='py-[10px] pl-3 ant-service' />
               </Form.Item>
               <Form.Item
                 name={['tenDichVu']}
@@ -178,7 +182,7 @@ const AddService = (props: Props) => {
                   },
                 ]}
               >
-                <Input className='py-[10px] pl-3' />
+                <Input className='py-[10px] pl-3 ant-service' />
               </Form.Item>
             </Col>
             <Col span={12} xs={24} xl={12}>
@@ -193,7 +197,7 @@ const AddService = (props: Props) => {
                   },
                 ]}
               >
-                <Input.TextArea className='py-[10px] pl-3 lg:block lg:ml-auto' />
+                <Input.TextArea className='py-[10px] pl-3 lg:block lg:ml-auto ant-service' />
               </Form.Item>
             </Col>
           </Row>
@@ -221,7 +225,7 @@ const AddService = (props: Props) => {
                       },
                     ]}
                   >
-                    <Input className='rounded-lg inlineInput' />
+                    <Input className='rounded-lg inlineInput ant-service' />
                   </Form.Item>
                   <span className='flex items-center  h-[32px] mb-[24px] mx-1'>
                     đến
@@ -235,7 +239,7 @@ const AddService = (props: Props) => {
                       },
                     ]}
                   >
-                    <Input className='rounded-lg inlineInput' />
+                    <Input className='rounded-lg inlineInput ant-service' />
                   </Form.Item>
                 </div>
               </div>
@@ -263,7 +267,7 @@ const AddService = (props: Props) => {
                       },
                     ]}
                   >
-                    <Input className='rounded-lg inlineInput' />
+                    <Input className='rounded-lg inlineInput ant-service' />
                   </Form.Item>
                 </div>
               </div>
@@ -291,7 +295,7 @@ const AddService = (props: Props) => {
                       },
                     ]}
                   >
-                    <Input className='rounded-lg inlineInput' />
+                    <Input className='rounded-lg inlineInput ant-service' />
                   </Form.Item>
                 </div>
               </div>
@@ -308,18 +312,18 @@ const AddService = (props: Props) => {
             <span className='text-primary'>*</span> là trường thông tin bắt buộc
           </span>
           <Space align='center' className=' flex justify-center w-full md:mt-5'>
-            <button
-              type='submit'
-              className='w-[160px] text-primary-400 px-6 py-[13px] rounded-lg font-bold text-base outline-none border[1.5px] border-solid border-primary-400 bg-primary-50 leading-[22px]'
+            <Button
+              className='w-[160px] text-primary-400 mr-6 rounded-lg font-bold text-base outline-none border[1.5px] border-solid border-primary-400 bg-primary-50 btn-cancel'
+              onClick={handleBackService}
             >
               Hủy bỏ
-            </button>
-            <button
-              type='submit'
-              className='w-[160px] text-white px-6 py-[13px] rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-primary-400 leading-[22px]'
+            </Button>
+            <Button
+              htmlType='submit'
+              className='w-[160px] text-white  rounded-lg font-bold text-base outline-none border border-solid border-primary-400 bg-primary-400 '
             >
               Cập nhật
-            </button>
+            </Button>
           </Space>
         </Form>
       </div>
@@ -327,4 +331,4 @@ const AddService = (props: Props) => {
   );
 };
 
-export default AddService;
+export default UpdateService;

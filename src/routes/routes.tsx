@@ -74,7 +74,7 @@ export const publicRoutes = [
   { path: '/', component: Login },
   { path: '/login', component: Login },
   { path: '/resetpass', component: ResetPassword },
-  { path: '/newpass', component: ResetNewPassword },
+  { path: '/newpass/:id', component: ResetNewPassword },
   { path: '/leveldevice', component: GearLevelDevice },
   { path: '/settinggear', component: SettingGearDevice },
   { path: '/viewsettinggear', component: SettingViewDevice },

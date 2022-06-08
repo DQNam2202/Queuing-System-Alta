@@ -32,7 +32,7 @@ const ResetPassword = () => {
         confirmButtonText: 'Đóng',
       });
     } else {
-      history('/newpass');
+      history(`/newpass/${user[index].id}`);
     }
   };
   return (
@@ -43,7 +43,7 @@ const ResetPassword = () => {
             <div className='flex flex-col justify-center items-center w-[400px]'>
               <div className='w-[170px] h-[137px] mt-[60px] mb-[60px]'>
                 <img
-                  src='./images/Logo_alta.png'
+                  src='/images/Logo_alta.png'
                   alt='Logo'
                   className='w-full h-full object-cover'
                 />
@@ -53,6 +53,9 @@ const ResetPassword = () => {
                   <h1 className='text-center text-primary-gray-500 font-bold text-[22px] leading-8'>
                     Đặt lại mật khẩu
                   </h1>
+                  <p className='text-center font-normal text-lg mt-3'>
+                    Vui lòng nhập email để đặt lại mật khẩu của bạn *
+                  </p>
                   <div className='mt-4'>
                     <Form.Item
                       name={'email'}
@@ -93,7 +96,7 @@ const ResetPassword = () => {
           <div
             style={{
               height: '100vh',
-              backgroundImage: 'url(./images/poster02.png)',
+              backgroundImage: 'url(/images/poster02.png)',
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
               backgroundPosition: 'center center',

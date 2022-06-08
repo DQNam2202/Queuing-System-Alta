@@ -1,0 +1,45 @@
+.rewrite-pass {
+  .ant-btn {
+    width: 162px;
+    height: 40px;
+    &:hover {
+      color: #fff;
+    }
+  }
+  .btn-cancel {
+    &:hover {
+      color: #ff9138;
+    }
+  }
+  .ant-form-item {
+    display: flex;
+    flex-direction: column;
+    .ant-form-item-label {
+      text-align: left;
+    }
+  }
+  // Tạo class login tại input field username
+  .ant-form-item-control-input-content {
+    .ant-input {
+      &.ant-login {
+        border: 1px solid #dcdcdc !important;
+        &:hover {
+          border-color: #ff9138 !important;
+        }
+      }
+    }
+    .ant-input:focus,
+    .ant-input-focused {
+      border-color: #ff9138 !important;
+      --tw-ring-color: #ff9138 !important;
+      outline: none;
+    }
+    .ant-input-affix-wrapper:focus,
+    .ant-input-affix-wrapper-focused {
+      border: 2px solid #ff9138 !important;
+      --tw-ring-color: #ff9138 !important;
+      outline: none;
+      box-shadow: 0 0 0 2px rgb(255, 255, 255) !important;
+    }
+  }
+}
