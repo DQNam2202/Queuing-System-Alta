@@ -37,7 +37,10 @@ const PrivateTemplate = (props: Props) => {
       <nav className='lg:hidden relative dashboard bg-transparent border-gray-200 sm:px-4 py-2.5 z-10 w-[200px] h-full'>
         <div className=' left-nav w-full h-full flex flex-col items-center'>
           <div className='logo flex justify-center items-center h-[100px] w-full '>
-            <Link to='/' className='flex items-center h-1/3 w-1/3 object-cover'>
+            <Link
+              to='/dashboard'
+              className='flex items-center h-1/3 w-1/3 object-cover'
+            >
               <img src='/images/Logo_alta.png' alt='' />
             </Link>
           </div>
@@ -131,7 +134,10 @@ const PrivateTemplate = (props: Props) => {
       >
         <div className='fixed w-52 z-50 bg-white left-nav h-full flex flex-col items-center'>
           <div className='logo flex justify-center items-center h-[100px] w-full '>
-            <Link to='/' className='flex items-center h-1/3 w-1/3 object-cover'>
+            <Link
+              to='/dashboard'
+              className='flex items-center h-1/3 w-1/3 object-cover'
+            >
               <img src='/images/Logo_alta.png' alt='' />
             </Link>
           </div>
