@@ -32,106 +32,111 @@ function AdminRightContent(props: Props) {
   };
 
   useEffect(() => {
-    // Status Activy Service
-    const dataService = {
-      online: services.filter(ser => ser.trangThai === true).length,
-      offline: services.filter(ser => ser.trangThai === false).length,
-      values: [
-        {
-          fill: '#4277FF',
-          percent: parseInt(
-            (
-              (services.filter(item => item.trangThai === true).length /
-                services.length) *
-              100
-            ).toFixed(2),
-          ),
-        },
-        {
-          fill: '#7E7D88',
-          percent: parseInt(
-            (
-              (services.filter(item => item.trangThai === false).length /
-                services.length) *
-              100
-            ).toFixed(2),
-          ),
-        },
-      ].sort((a, b) => b.percent - a.percent),
-    };
-    setDetailService(dataService);
-    // Status Activity Device
-    const dataDevice = {
-      online: devices.filter(ser => ser.trangThaiHoatDong === true).length,
-      offline: devices.filter(ser => ser.trangThaiHoatDong === false).length,
-      values: [
-        {
-          fill: '#4277FF',
-          percent: parseInt(
-            (
-              (devices.filter(item => item.trangThaiHoatDong === true).length /
-                devices.length) *
-              100
-            ).toFixed(2),
-          ),
-        },
-        {
-          fill: '#7E7D88',
-          percent: parseInt(
-            (
-              (devices.filter(item => item.trangThaiHoatDong === false).length /
-                devices.length) *
-              100
-            ).toFixed(2),
-          ),
-        },
-      ].sort((a, b) => b.percent - a.percent),
-    };
-    setDetailDevice(dataDevice);
-    // Status Activity Device
-    const dataProgression = {
-      online: progressions.filter(ser => ser.trangThai === Status.USED).length,
-      offline: progressions.filter(ser => ser.trangThai === Status.PENDING)
-        .length,
-      remove: progressions.filter(ser => ser.trangThai === Status.REMOVE)
-        .length,
-      values: [
-        {
-          fill: '#4277FF',
-          percent: parseInt(
-            (
-              (progressions.filter(item => item.trangThai === Status.USED)
-                .length /
-                progressions.length) *
-              100
-            ).toFixed(2),
-          ),
-        },
-        {
-          fill: '#7E7D88',
-          percent: parseInt(
-            (
-              (progressions.filter(item => item.trangThai === Status.PENDING)
-                .length /
-                progressions.length) *
-              100
-            ).toFixed(2),
-          ),
-        },
-        {
-          fill: '#35C75A',
-          percent: parseInt(
-            (
-              (progressions.filter(item => item.trangThai === Status.REMOVE)
-                .length /
-                progressions.length) *
-              100
-            ).toFixed(2),
-          ),
-        },
-      ].sort((a, b) => b.percent - a.percent),
-    };
-    setDetailProgression(dataProgression);
+    if (services && devices && progressions) {
+      // Status Activy Service
+      const dataService = {
+        online: services.filter(ser => ser.trangThai === true).length,
+        offline: services.filter(ser => ser.trangThai === false).length,
+        values: [
+          {
+            fill: '#4277FF',
+            percent: parseInt(
+              (
+                (services.filter(item => item.trangThai === true).length /
+                  services.length) *
+                100
+              ).toFixed(2),
+            ),
+          },
+          {
+            fill: '#7E7D88',
+            percent: parseInt(
+              (
+                (services.filter(item => item.trangThai === false).length /
+                  services.length) *
+                100
+              ).toFixed(2),
+            ),
+          },
+        ].sort((a, b) => b.percent - a.percent),
+      };
+      setDetailService(dataService);
+      // Status Activity Device
+      const dataDevice = {
+        online: devices.filter(ser => ser.trangThaiHoatDong === true).length,
+        offline: devices.filter(ser => ser.trangThaiHoatDong === false).length,
+        values: [
+          {
+            fill: '#4277FF',
+            percent: parseInt(
+              (
+                (devices.filter(item => item.trangThaiHoatDong === true)
+                  .length /
+                  devices.length) *
+                100
+              ).toFixed(2),
+            ),
+          },
+          {
+            fill: '#7E7D88',
+            percent: parseInt(
+              (
+                (devices.filter(item => item.trangThaiHoatDong === false)
+                  .length /
+                  devices.length) *
+                100
+              ).toFixed(2),
+            ),
+          },
+        ].sort((a, b) => b.percent - a.percent),
+      };
+      setDetailDevice(dataDevice);
+      // Status Activity Device
+      const dataProgression = {
+        online: progressions.filter(ser => ser.trangThai === Status.USED)
+          .length,
+        offline: progressions.filter(ser => ser.trangThai === Status.PENDING)
+          .length,
+        remove: progressions.filter(ser => ser.trangThai === Status.REMOVE)
+          .length,
+        values: [
+          {
+            fill: '#4277FF',
+            percent: parseInt(
+              (
+                (progressions.filter(item => item.trangThai === Status.USED)
+                  .length /
+                  progressions.length) *
+                100
+              ).toFixed(2),
+            ),
+          },
+          {
+            fill: '#7E7D88',
+            percent: parseInt(
+              (
+                (progressions.filter(item => item.trangThai === Status.PENDING)
+                  .length /
+                  progressions.length) *
+                100
+              ).toFixed(2),
+            ),
+          },
+          {
+            fill: '#35C75A',
+            percent: parseInt(
+              (
+                (progressions.filter(item => item.trangThai === Status.REMOVE)
+                  .length /
+                  progressions.length) *
+                100
+              ).toFixed(2),
+            ),
+          },
+        ].sort((a, b) => b.percent - a.percent),
+      };
+      setDetailProgression(dataProgression);
+    }
   }, [services, devices, progressions]);
 
   return (

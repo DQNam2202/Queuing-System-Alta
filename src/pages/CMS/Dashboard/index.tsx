@@ -163,6 +163,113 @@ function Dashboard() {
   const handleFilterChange = (value: any) => {
     setFilter(value);
   };
+  const renderDataSetMoney = () => {
+    var canvas = document.createElement('canvas');
+    var chart = canvas.getContext('2d');
+    let gradient = chart?.createLinearGradient(0, 0, 0, 450);
+
+    gradient?.addColorStop(0, 'rgba(206, 221, 255,1)');
+    gradient?.addColorStop(0.5, 'rgba(206, 221, 255,0.7)');
+    gradient?.addColorStop(1, 'rgba(206, 221, 255,0.3)');
+    // Variable
+    let date = dateSelected;
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    const days = new Date(year, month, 0).getDate();
+    let listDays = Array.from({ length: days }, (_, i) => i + 1);
+    let listMonths = Array.from({ length: 12 }, (_, i) => i + 1);
+    //Cacluator money earn incoming
+    let labels: any[] = [];
+    let data = [33, 53, 85, 41, 44, 65];
+    switch (filter) {
+      case 'day':
+        // Caclulator day by day
+        var temp = listDays.reduce((curr: number[], next) => {
+          let ProgressOfDay = progression.filter(progress => {
+            let temp = progress.thoiGianCap as any;
+            return (
+              new Date(temp.toDate()).getDate() === next &&
+              new Date(temp.toDate()).getMonth() + 1 === month &&
+              new Date(temp.toDate()).getFullYear() === year
+            );
+          });
+          curr.push(ProgressOfDay.length);
+          return [...curr];
+        }, []);
+        labels = [...listDays];
+        data = [...temp];
+        console.log(temp);
+        break;
+      case 'week':
+        //day of week start of month
+        let weekArray = [];
+        for (let i = 0; i < 4; i++) {
+          let obj = {
+            startDay: new Date(year, month - 1, 7 * i + 1),
+            endDay: new Date(year, month - 1, 7 * i + 7),
+          };
+          weekArray.push(obj);
+        }
+        // Caclulator week
+        var temp = weekArray.reduce((curr: number[], next) => {
+          let numberOfDay = progression.filter(progress => {
+            let temp = progress.thoiGianCap as any;
+            if (
+              next.startDay <= new Date(temp.toDate()) &&
+              next.endDay >= new Date(temp.toDate())
+            ) {
+              return true;
+            }
+            return false;
+          });
+          curr.push(numberOfDay.length);
+          return [...curr];
+        }, []);
+        labels = ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'];
+        data = [...temp];
+        break;
+      case 'month':
+        //day of week start of month
+        // Caclulator week
+        var temp = listMonths.reduce((curr: number[], next) => {
+          let numberOfDay = progression.filter(progress => {
+            let temp = progress.thoiGianCap as any;
+            if (
+              next === new Date(temp.toDate()).getMonth() + 1 &&
+              year === new Date(temp.toDate()).getFullYear()
+            ) {
+              return true;
+            }
+            return false;
+          });
+          curr.push(numberOfDay.length);
+          return [...curr];
+        }, []);
+        labels = [...listMonths];
+        data = [...temp];
+        break;
+      default:
+        break;
+    }
+
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Số đã cấp (lượt)',
+          data: data,
+          fill: true,
+          backgroundColor: gradient,
+          borderColor: '#5185F7',
+          pointStyle: 'circle',
+          pointRadius: 6,
+          pointBorderWidth: 3,
+          pointBorderColor: '#fff',
+          pointBackgroundColor: '#5185F7',
+        },
+      ],
+    };
+  };
   return (
     <div className='flex w-full'>
       <div className='pt-5 dashboard__main w-2/3'>
@@ -269,7 +376,12 @@ function Dashboard() {
               </div>
             </div>
             {/* Chart  */}
-            <Line data={data() as any} options={options as any} />
+            {progression && (
+              <Line
+                data={renderDataSetMoney() as any}
+                options={options as any}
+              />
+            )}
           </div>
         </div>
       </div>
