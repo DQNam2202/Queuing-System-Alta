@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './style.scss';
 import {
   ArrowDownOutlined,
@@ -21,6 +21,14 @@ import {
   LineElement,
 } from 'chart.js';
 import AdminRightContent from '../AdminRightContent';
+// type
+import IService from '../../../db/types/service.type';
+import IDevice from '../../../db/types/device.type';
+import IProgression from '../../../db/types/progression.type';
+// service
+import ServiceServices from '../../../db/services/service.services';
+import DeviceServices from '../../../db/services/device.services';
+import ProgressionServices from '../../../db/services/progression.services';
 ChartJS.register(
   ArcElement,
   Filler,
@@ -109,6 +117,52 @@ const options = {
 const { Option } = Select;
 
 function Dashboard() {
+  const [services, setServices] = React.useState<IService[]>([]);
+  const [devices, setDevices] = React.useState<IDevice[]>([]);
+  const [progression, setProgression] = React.useState<IProgression[]>([]);
+  const [countItem, setCountItem] = React.useState<any>({});
+  const [dateSelected, setDateSelected] = React.useState<any>(new Date());
+  const [filter, setFilter] = React.useState<any>('day');
+  useEffect(() => {
+    (async () => {
+      const dataService = await ServiceServices.getService();
+      const dataDevice = await DeviceServices.getDevice();
+      const dataProgression = await ProgressionServices.getProgression();
+      setServices(dataService);
+      setDevices(dataDevice);
+      setProgression(dataProgression);
+      let count = dataProgression.reduce(
+        (acc: any, cur: any) => {
+          let item = { ...acc };
+          item.daCap++;
+          if (cur.trangThai === 'pending') {
+            item.trangThai++;
+          }
+          if (cur.trangThai === 'used') {
+            item.dangSuDung++;
+          }
+          if (cur.trangThai === 'removed') {
+            item.huyBo++;
+          }
+          return item;
+        },
+        {
+          daCap: 0,
+          daSuDung: 0,
+          dangCho: 0,
+          huyBo: 0,
+        },
+      );
+      setCountItem(count);
+    })();
+  }, [services, devices, progression]);
+  const handleChangeDate = (date: any) => {
+    setDateSelected(date);
+  };
+
+  const handleFilterChange = (value: any) => {
+    setFilter(value);
+  };
   return (
     <div className='flex w-full'>
       <div className='pt-5 dashboard__main w-2/3'>
@@ -126,7 +180,9 @@ function Dashboard() {
                 </div>
               </div>
               <div className='flex items-center justify-between w-full'>
-                <span className='font-bold text-3xl text-gray-600'>4.221</span>{' '}
+                <span className='font-bold text-3xl text-gray-600'>
+                  {countItem?.daCap}
+                </span>{' '}
                 <span className='flex items-center text-[10px] bg-primary bg-opacity-10  rounded-xl text-bold text-primary px-1 py-1'>
                   <ArrowUpOutlined /> 32,41%
                 </span>
@@ -142,7 +198,9 @@ function Dashboard() {
                 </div>
               </div>
               <div className='flex items-center justify-between w-full'>
-                <span className='font-bold text-3xl text-gray-600'>32</span>{' '}
+                <span className='font-bold text-3xl text-gray-600'>
+                  {countItem?.daSuDung}
+                </span>{' '}
                 <span className='flex items-center text-[10px] bg-red-500 bg-opacity-10  rounded-xl text-bold text-red-500 px-1 py-1'>
                   <ArrowDownOutlined /> 32,41%
                 </span>
@@ -158,7 +216,9 @@ function Dashboard() {
                 </div>
               </div>
               <div className='flex items-center justify-between w-full'>
-                <span className='font-bold text-3xl text-gray-600'>32</span>{' '}
+                <span className='font-bold text-3xl text-gray-600'>
+                  {countItem?.dangCho}
+                </span>{' '}
                 <span className='flex items-center text-[10px] bg-red-500 bg-opacity-10  rounded-xl text-bold text-red-500 px-1 py-1'>
                   <ArrowDownOutlined /> 32,41%
                 </span>
@@ -174,7 +234,9 @@ function Dashboard() {
                 </div>
               </div>
               <div className='flex items-center justify-between w-full'>
-                <span className='font-bold text-3xl text-gray-600'>32</span>{' '}
+                <span className='font-bold text-3xl text-gray-600'>
+                  {countItem?.huyBo}
+                </span>{' '}
                 <span className='flex items-center text-[10px] bg-primary bg-opacity-10  rounded-xl text-bold text-primary px-1 py-1'>
                   <ArrowUpOutlined /> 32,41%
                 </span>
@@ -189,7 +251,12 @@ function Dashboard() {
                 <Select
                   defaultValue={'Day'}
                   className='text-gray-500'
-                  suffixIcon={<CaretDownOutlined className='text-primary' />}
+                  suffixIcon={
+                    <CaretDownOutlined
+                      className='text-primary'
+                      onChange={handleFilterChange}
+                    />
+                  }
                 >
                   <Option value='Day'>Day</Option>
                   <Option value='Week'>Week</Option>
@@ -206,7 +273,12 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <AdminRightContent />
+      <AdminRightContent
+        services={services}
+        devices={devices}
+        progressions={progression}
+        handleChangeDate={handleChangeDate}
+      />
     </div>
   );
 }

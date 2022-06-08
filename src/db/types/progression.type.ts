@@ -1,7 +1,7 @@
 export enum Status {
   PENDING = 'pending',
   USED = 'used',
-  REMOVE = 'remove',
+  REMOVE = 'removed',
 }
 
 export enum Source {

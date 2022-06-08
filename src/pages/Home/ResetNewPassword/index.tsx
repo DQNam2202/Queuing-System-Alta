@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import UserServices from '../../../db/services/user.services';
 import IUser from '../../../db/types/user.type';
+import SystemLogServices from '../../../db/services/log_system.services';
+import { getID } from '../../../APIs/getIP';
 import './style.scss';
 const { Sider, Content } = Layout;
 
@@ -18,7 +20,7 @@ const ResetNewPassword = () => {
       setUser(user);
     })();
   });
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     const { password, repassword } = values;
     if (password !== repassword) {
       Swal.fire({
@@ -46,6 +48,15 @@ const ResetNewPassword = () => {
           title: 'Thông báo',
           text: 'Đổi mật khẩu thành công',
           confirmButtonText: 'Đóng',
+        });
+        let ip = await getID();
+        SystemLogServices.addLog({
+          tenDangNhap: (user[idxUser]?.tenDangNhap as string)
+            ? (user[idxUser]?.tenDangNhap as string)
+            : 'Unknown',
+          actionTime: new Date(),
+          ip: ip.IPv4,
+          action: `${user[idxUser].tenDangNhap} đã đổi mật khẩu mới`,
         });
         history('/login');
       }
